@@ -1,0 +1,665 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+main {
+    flex: 1;
+}
+
+html, body {
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: #f4f6f9;
+    color: #1a1a1a;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin:  auto;
+}
+
+
+.header {
+    background-color: #0a1f44;
+    padding: 20px 0;
+}
+
+.logo {
+    color: #fff;
+    font-size: 22px;
+    font-weight: bold;
+    ;
+}
+
+.nav ul {
+    list-style: none;
+    display: flex;
+    gap: 40px;
+}
+
+.nav a {
+    color: #fff;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.nav a:hover {
+    color: #4da3ff; 
+    transform: translateY(-2px);
+}
+
+.header .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+
+.hero {
+    background-color: #102a5c;
+    color: #fff;
+    padding: 100px 0;
+    text-align: center;
+}
+
+.hero h1 {
+    font-size: 36px;
+    margin-bottom: 15px;
+}
+
+.hero p {
+    margin-bottom: 25px;
+}
+
+.btn-primary {
+    background-color: #1e88e5;
+    color: #fff;
+    padding: 12px 25px;
+    text-decoration: none;
+    border-radius: 5px;
+}
+
+.sports-grid {
+    display: flex;
+    gap: 20px;
+    overflow-x: auto;
+    padding: 10px 0;
+    justify-content: center;
+    flex-wrap: nowrap;
+}
+
+.sport-card {
+    position: relative;
+    min-width: 220px;
+    height: 160px;
+    border-radius: 10px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.sport-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.sport-card span {
+    position: absolute;
+    bottom: 10px;
+    left: 15px;
+    color: #fff;
+    font-weight: bold;
+    font-size: 18px;
+    z-index: 2;
+}
+
+/* Overlay escuro */
+.sport-card::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.4);
+}
+
+/* Hover */
+.sport-card:hover {
+    transform: translateY(-6px);
+}
+
+
+.footer {
+    background-color: #0a1f44;
+    color: #fff;
+    padding: 30px 0;
+    margin-top: 60px;
+    text-align: center;
+}
+
+.sports h2 {
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.sports {
+     padding: 40px 0;
+}
+
+
+/* QUADRAS HTML */
+.quadras-section {
+    background-color: #fcfbfb;
+    padding: 80px 5%;
+}
+
+.page-title {
+    text-align: center;
+    color: #07599c;
+    font-size: 36px;
+    margin-bottom: 60px;
+    font-weight: bold, 300px;
+}
+
+.quadras-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 40px;
+}
+
+.quadra-card {
+    background-color: #111;
+    border-radius: 10px;
+    overflow: hidden;
+    transition: 0.3s ease;
+}
+
+.quadra-card img {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+    transition: 0.4s ease;
+}
+
+.quadra-info {
+    padding: 20px;
+    color: #fff;
+}
+
+.quadra-info h3 {
+    margin-bottom: 10px;
+}
+
+.quadra-info p {
+    font-size: 14px;
+    margin-bottom: 15px;
+    color: #ccc;
+}
+
+.btn-primary {
+    display: inline-block;
+    padding: 8px 16px;
+    background-color: #1e88e5;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 14px;
+    transition: 0.3s;
+}
+
+/* 🔥 EFEITO HOVER */
+.quadra-card:hover {
+    transform: translateY(-8px);
+}
+
+.quadra-card:hover img {
+    transform: scale(1.05);
+    opacity: 0.85;
+}
+
+.btn-primary:hover {
+    background-color: #1565c0;
+}
+
+/* ===== DETALHES DAS QUADRAS ===== */
+
+.detalhe-hero {
+    background-color: #000;
+    color: #fff;
+    padding: 100px 8%;
+}
+
+.titulo-central {
+    text-align: center;
+    margin-bottom: 70px;
+}
+
+.titulo-central h1 {
+    font-size: 48px;
+    font-weight: 300;
+    margin-bottom: 10px;
+}
+
+.titulo-central p {
+    color: #aaa;
+    font-size: 14px;
+}
+
+.detalhe-container {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 60px;
+    align-items: center;
+}
+
+.descricao {
+    font-size: 18px;
+    line-height: 1.9;
+    margin-bottom: 28px;
+    color: #dcdcdc; /* mais contraste */
+}
+
+.btn-reservar {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 12px 28px;
+    background-color: #1e88e5;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: 500;
+    transition: 0.3s ease;
+}
+
+.btn-reservar:hover {
+    background-color: #1565c0;
+    transform: translateY(-3px);
+}
+
+.detalhe-imagem img {
+    width: 100%;
+    border-radius: 10px;
+    object-fit: cover;
+}
+
+.detalhe-section {
+    padding: 100px 8%;
+    background-color: #111;
+    color: #fff;
+}
+
+.detalhe-info {
+    background: #fff;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+    background: #111;
+}
+
+.detalhe-info h1 {
+    font-size: 32px;
+    margin-bottom: 25px;
+}
+
+/* Responsivo */
+@media (max-width: 900px) {
+    .detalhe-container {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* CARROSEL JS */
+
+.detalhe-imagem {
+    overflow: hidden;
+    border-radius: 10px;
+}
+
+.detalhe-imagem img {
+    width: 100%;
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+    cursor: pointer;
+}
+
+.detalhe-imagem img:hover {
+    transform: scale(1.05);
+}
+
+
+.lightbox {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.9);
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+}
+
+.lightbox-img {
+    max-width: 90%;
+    max-height: 80%;
+    border-radius: 10px;
+}
+
+.fechar {
+    position: absolute;
+    top: 30px;
+    right: 50px;
+    font-size: 40px;
+    color: #fff;
+    cursor: pointer;
+}
+
+/* MODAL RESERVA */
+
+.modal-agendamento {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.85);
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-conteudo {
+    background: #1a1a1a;
+    padding: 40px;
+    border-radius: 12px;
+    width: 500px;
+    text-align: center;
+    color: #fff;
+    position: relative;
+}
+
+.fechar-modal {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    font-size: 28px;
+    cursor: pointer;
+}
+
+.horarios {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    margin: 20px 0;
+}
+
+.slot {
+    padding: 10px;
+    border: none;
+    cursor: pointer;
+    border-radius: 6px;
+    background: #333;
+    color: #fff;
+    transition: 0.3s;
+}
+
+.slot:hover {
+    background: #1e88e5;
+}
+
+.slot.ocupado {
+    background: #555;
+    cursor: not-allowed;
+    opacity: 0.5;
+}
+
+.slot.selecionado {
+    background: #1e88e5;
+}
+
+.btn-confirmar {
+    margin-top: 15px;
+    padding: 10px 20px;
+    background: #1e88e5;
+    border: none;
+    border-radius: 6px;
+    color: #fff;
+    cursor: pointer;
+}
+
+.modal-conteudo input[type="date"] {
+    margin-top: 10px;
+    padding: 8px;
+    border-radius: 6px;
+    border: none;
+    background: #333;
+    color: #fff;
+}
+
+.modal-conteudo label {
+    display: block;
+    margin-top: 15px;
+    font-weight: 500;
+}
+
+/* ===== LOGIN LAYOUT ===== */
+
+.login-body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.login-container {
+    display: flex;
+    height: 100vh;
+}
+
+/* Lado esquerdo com imagem */
+.login-left {
+    flex: 1;
+    background: url('../assets/images/esportes/futebolsociety.jpg') center/cover no-repeat;
+    position: relative;
+}
+
+.login-left .overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.6);
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Lado direito */
+.login-right {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #f4f4f4;
+}
+
+.login-box {
+    width: 350px;
+}
+
+.login-box h2 {
+    margin-bottom: 20px;
+}
+
+/* Inputs */
+.login-box input {
+    width: 100%;
+    padding: 14px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 15px;
+}
+
+/* Botão */
+.login-box button {
+    width: 100%;
+    padding: 14px;
+    border-radius: 8px;
+    border: none;
+    background: #1e7d34;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.login-box button:hover {
+    background: #166228;
+}
+
+
+
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+
+/* CONTATO  */
+.contato {
+    display: flex;
+    background-color: black;
+    color: white;
+    align-items: stretch;
+    width: 50%;
+}
+
+.contato-img {
+    width: 100%;
+}
+
+.imagemdohome {
+    width: 100%;
+    height: 20%;
+    object-fit: cover;
+    display: block;
+}
+
+.contato-info {
+    flex: 1;
+    padding: 40px;
+    font-size: 14px;
+    line-height: 1.8;
+}
+
+html, body {
+    overflow-x: hidden;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+/*  CADASTRO */
+
+.login-extra {
+    margin-top: 25px;
+    text-align: center;
+}
+
+.login-extra p {
+    font-size: 16px;
+    margin-bottom: 15px;
+    color: #333;
+}
+
+.btn-cadastro {
+    display: inline-block;
+    padding: 12px 28px;
+    border: 2px solid #00aaff;
+    border-radius: 30px;
+    text-decoration: none;
+    color: #00aaff;
+    font-weight: 500;
+    font-size: 15px;
+    transition: all 0.3s ease;
+}
+
+.btn-cadastro:hover {
+    background-color: #00aaff;
+    color: white;
+}
+
+.login-container {
+    display: flex;
+    height: 100vh;
+}
+
+.login-left {
+    width: 50%;
+}
+
+.login-left img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.login-right {
+    width: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* LOGO E BOTÃO VOLTAR */
+
+.top-bar{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 20px 40px;
+
+    z-index: 9999;
+}
+
+.logo-login{
+    font-size: 24px;
+    font-weight: bold;
+    color: white;
+    text-decoration: none;
+    position: relative;
+    transition: 0.3s;
+}
+
+.logo-login:hover{
+    color: #00aaff;
+}
+
+.btn-home{
+    padding: 8px 18px;
+    background: white;
+    color: black;
+    border-radius: 6px;
+    text-decoration: none;
+}
+
+.btn-home:hover{
+    color: #00aaff;
+}
+
+.login-container{
+    position: relative;
+    z-index: 1;
+}
