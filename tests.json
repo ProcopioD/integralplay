@@ -1,0 +1,331 @@
+{
+  "info": {
+    "name": "IntegralPlay API Tests Completo",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "POST Login Cliente",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": { "mode": "raw", "raw": "{\"email\": \"joao@email.com\", \"senha\": \"senha123\"}" },
+        "url": "http://localhost:3000/auth/login"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Login retorna status 200', function () {",
+              "  pm.response.to.have.status(200);",
+              "});",
+              "pm.test('Login retorna token JWT', function () {",
+              "  const json = pm.response.json();",
+              "  pm.expect(json).to.have.property('token');",
+              "  pm.collectionVariables.set('token_cliente', json.token);",
+              "});",
+              "pm.test('Login retorna dados do usuário', function () {",
+              "  const json = pm.response.json();",
+              "  pm.expect(json.usuario).to.have.property('email');",
+              "  pm.expect(json.usuario.perfil).to.equal('cliente');",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "POST Login Admin",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": { "mode": "raw", "raw": "{\"email\": \"admin@integralplay.com\", \"senha\": \"senha123\"}" },
+        "url": "http://localhost:3000/auth/login"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Login admin retorna status 200', function () {",
+              "  pm.response.to.have.status(200);",
+              "});",
+              "pm.test('Login admin retorna token JWT', function () {",
+              "  const json = pm.response.json();",
+              "  pm.expect(json).to.have.property('token');",
+              "  pm.collectionVariables.set('token_admin', json.token);",
+              "});",
+              "pm.test('Perfil do usuário é admin', function () {",
+              "  const json = pm.response.json();",
+              "  pm.expect(json.usuario.perfil).to.equal('admin');",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "GET Espaços (público)",
+      "request": {
+        "method": "GET",
+        "url": "http://localhost:3000/espacos"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('GET espaços retorna status 200', function () {",
+              "  pm.response.to.have.status(200);",
+              "});",
+              "pm.test('Retorna lista de espaços', function () {",
+              "  const json = pm.response.json();",
+              "  pm.expect(json).to.be.an('array');",
+              "  pm.expect(json.length).to.be.above(0);",
+              "});",
+              "pm.test('Cada espaço tem nome e cidade', function () {",
+              "  const json = pm.response.json();",
+              "  pm.expect(json[0]).to.have.property('nome');",
+              "  pm.expect(json[0]).to.have.property('cidade');",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "GET Quadras do Espaço 1",
+      "request": {
+        "method": "GET",
+        "url": "http://localhost:3000/quadras/espaco/1"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('GET quadras retorna status 200', function () {",
+              "  pm.response.to.have.status(200);",
+              "});",
+              "pm.test('Retorna lista de quadras', function () {",
+              "  const json = pm.response.json();",
+              "  pm.expect(json).to.be.an('array');",
+              "});",
+              "pm.test('Quadra tem preço por hora', function () {",
+              "  const json = pm.response.json();",
+              "  if (json.length > 0) pm.expect(json[0]).to.have.property('preco_hora');",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "POST Criar Reserva",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" },
+          { "key": "Authorization", "value": "Bearer {{token_cliente}}" }
+        ],
+        "body": { "mode": "raw", "raw": "{\"quadra_id\": 1, \"data\": \"2026-12-20\", \"hora_inicio\": \"14:00\", \"hora_fim\": \"15:00\", \"tipo\": \"pontual\"}" },
+        "url": "http://localhost:3000/reservas"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Criar reserva retorna 201', function () {",
+              "  pm.response.to.have.status(201);",
+              "});",
+              "pm.test('Reserva retorna ID e valor', function () {",
+              "  const json = pm.response.json();",
+              "  pm.expect(json).to.have.property('reserva_id');",
+              "  pm.expect(json).to.have.property('valor_total');",
+              "  pm.collectionVariables.set('reserva_id', json.reserva_id);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "POST Pagamento",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" },
+          { "key": "Authorization", "value": "Bearer {{token_cliente}}" }
+        ],
+        "body": { "mode": "raw", "raw": "{\"reserva_id\": {{reserva_id}}, \"metodo\": \"pix\"}" },
+        "url": "http://localhost:3000/pagamentos"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Pagamento retorna 200', function () {",
+              "  pm.response.to.have.status(200);",
+              "});",
+              "pm.test('Pagamento aprovado com sucesso', function () {",
+              "  const json = pm.response.json();",
+              "  pm.expect(json.pagamento.status).to.equal('aprovado');",
+              "  pm.expect(json.pagamento.metodo).to.equal('pix');",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "GET Minhas Reservas",
+      "request": {
+        "method": "GET",
+        "header": [{ "key": "Authorization", "value": "Bearer {{token_cliente}}" }],
+        "url": "http://localhost:3000/reservas/minhas"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('GET reservas retorna 200', function () {",
+              "  pm.response.to.have.status(200);",
+              "});",
+              "pm.test('Retorna lista de reservas', function () {",
+              "  const json = pm.response.json();",
+              "  pm.expect(json).to.be.an('array');",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "GET Notificações",
+      "request": {
+        "method": "GET",
+        "header": [{ "key": "Authorization", "value": "Bearer {{token_cliente}}" }],
+        "url": "http://localhost:3000/notificacoes"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('GET notificações retorna 200', function () {",
+              "  pm.response.to.have.status(200);",
+              "});",
+              "pm.test('Retorna lista de notificações', function () {",
+              "  const json = pm.response.json();",
+              "  pm.expect(json).to.be.an('array');",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "GET Admin Relatório",
+      "request": {
+        "method": "GET",
+        "header": [{ "key": "Authorization", "value": "Bearer {{token_admin}}" }],
+        "url": "http://localhost:3000/admin/relatorio"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('GET relatório retorna 200', function () {",
+              "  pm.response.to.have.status(200);",
+              "});",
+              "pm.test('Relatório tem dados de usuários e reservas', function () {",
+              "  const json = pm.response.json();",
+              "  pm.expect(json).to.have.property('usuarios');",
+              "  pm.expect(json).to.have.property('reservas');",
+              "  pm.expect(json).to.have.property('faturamento_total');",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "GET Logs (Admin)",
+      "request": {
+        "method": "GET",
+        "header": [{ "key": "Authorization", "value": "Bearer {{token_admin}}" }],
+        "url": "http://localhost:3000/logs"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('GET logs retorna 200', function () {",
+              "  pm.response.to.have.status(200);",
+              "});",
+              "pm.test('Retorna lista de logs', function () {",
+              "  const json = pm.response.json();",
+              "  pm.expect(json).to.be.an('array');",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "POST Login Inválido (segurança)",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": { "mode": "raw", "raw": "{\"email\": \"hacker@teste.com\", \"senha\": \"senhaerrada\"}" },
+        "url": "http://localhost:3000/auth/login"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Login inválido retorna 401', function () {",
+              "  pm.response.to.have.status(401);",
+              "});",
+              "pm.test('Retorna mensagem de erro', function () {",
+              "  const json = pm.response.json();",
+              "  pm.expect(json).to.have.property('erro');",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "GET Rota Protegida sem Token (segurança)",
+      "request": {
+        "method": "GET",
+        "url": "http://localhost:3000/admin/relatorio"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Rota protegida sem token retorna 401', function () {",
+              "  pm.response.to.have.status(401);",
+              "});"
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "variable": [
+    { "key": "token_cliente", "value": "" },
+    { "key": "token_admin", "value": "" },
+    { "key": "reserva_id", "value": "" }
+  ]
+}

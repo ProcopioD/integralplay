@@ -1,5 +1,7 @@
+version: '3.8'
 
 services:
+  # ─── BANCO DE DADOS: MYSQL ──────────────────────────────────────────────────
   quadras-db:
     image: mysql:8.0
     container_name: mysql-container
@@ -11,7 +13,14 @@ services:
       MYSQL_DATABASE: aluguel_quadras
     volumes:
       - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-proot"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
 
+  # ─── SUA API NODE.JS ────────────────────────────────────────────────────────
   quadras-api:
     build: .
     container_name: api-container
@@ -19,17 +28,18 @@ services:
     ports:
       - "3000:3000"
     depends_on:
-      - quadras-db
+      quadras-db:
+        condition: service_healthy
     environment:
       - PORT=3000
-      - DB_HOST=mysql-container
+      - DB_HOST=quadras-db
       - DB_USER=root
       - DB_PASSWORD=root
       - DB_NAME=aluguel_quadras
       - JWT_SECRET=chave_secreta_do_grupo
       - MONGODB_URI=mongodb+srv://dpsantos:dpsantos45@integralplay.mnqvqnl.mongodb.net/?appName=IntegralPlay
     healthcheck:
-      test: ["CMD", "node", "-e", "require('http').get('http://localhost:3000/health', (r) => r.statusCode === 200 ? process.exit(0) : process.exit(1))"]
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
       interval: 10s
       timeout: 5s
       retries: 3
