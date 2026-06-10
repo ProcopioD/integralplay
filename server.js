@@ -1,33 +1,69 @@
-const db = require('./models/db'); // Conexão com o banco
+require('dotenv').config();
+const conectarMongoDB = require('./models/mongodb');
+conectarMongoDB();
 
-require('dotenv').config(); // Carregar variáveis de ambiente
 const express = require('express');
+const http = require('http');
+const { Server } = require('socket.io');
 const bodyParser = require('body-parser');
+const db = require('./models/db');
+
 const app = express();
+const server = http.createServer(app);
+const io = new Server(server, {
+  cors: { origin: '*' }
+});
+
 const PORT = process.env.PORT || 3000;
 
-// Middleware
+// ─── SOCKET.IO ────────────────────────────────────────────────────────────────
+const configurarSocket = require('./config/socketConfig');
+configurarSocket(io);
+
+// ─── MIDDLEWARE ───────────────────────────────────────────────────────────────
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.static('public'));
+console.log('Pasta public:', require('path').join(__dirname, 'public'));
 
-// Rotas
-const userRoutes = require('./routes/userRoutes');
-const reservaRoutes = require('./routes/reservaRoutes');
-const apiCentralRoutes = require('./routes/apiCentralRoutes');
-const pagamentoRoutes = require('./routes/pagamentoRoutes');  // Nova rota de pagamento
-const avaliacaoRoutes = require('./routes/avaliacaoRoutes');  // Nova rota de avaliação
-const historicoRoutes = require('./routes/historicoRoutes'); // Nova rota de histórico
-
-app.use('/usuarios', userRoutes);
-app.use('/reservas', reservaRoutes);
-app.use('/plataformas', apiCentralRoutes);
-app.use('/api', apiCentralRoutes);
-app.use('/api', pagamentoRoutes);  // Usar rota de pagamento
-app.use('/api', avaliacaoRoutes);  // Usar rota de avaliação
-app.use('/api/historico', historicoRoutes); // Usar rota de histórico
+// ─── ROTAS ────────────────────────────────────────────────────────────────────
+const authRoutes        = require('./routes/authRoutes');
+const userRoutes        = require('./routes/userRoutes');
+const reservaRoutes     = require('./routes/reservaRoutes');
+const pagamentoRoutes   = require('./routes/pagamentoRoutes');
+const avaliacaoRoutes   = require('./routes/avaliacaoRoutes');
+const historicoRoutes   = require('./routes/historicoRoutes');
+const espacoRoutes      = require('./routes/espacoRoutes');
+const quadraRoutes      = require('./routes/quadraRoutes');
+const logRoutes         = require('./routes/logRoutes');
+const notificacaoRoutes = require('./routes/notificacaoRoutes');
+const chatRoutes        = require('./routes/chatRoutes');
+const adminRoutes       = require('./routes/adminRoutes');
 
 
-// Inicia o servidor
-app.listen(PORT, () => {
+// ─── HEALTHCHECK (Para o Docker monitorar) ────────────────────────────────────
+app.get('/health', (req, res) => {
+  res.status(200).json({
+    status: 'OK',
+    uptime: process.uptime(),
+    timestamp: new Date()
+  });
+});
+
+app.use('/auth',          authRoutes);
+app.use('/usuarios',      userRoutes);
+app.use('/reservas',      reservaRoutes);
+app.use('/pagamentos',    pagamentoRoutes);
+app.use('/avaliacoes',    avaliacaoRoutes);
+app.use('/historico',     historicoRoutes);
+app.use('/espacos',       espacoRoutes);
+app.use('/quadras',       quadraRoutes);
+app.use('/logs',          logRoutes);
+app.use('/notificacoes',  notificacaoRoutes);
+app.use('/chat',          chatRoutes);
+app.use('/admin',         adminRoutes);
+
+// ─── INICIA O SERVIDOR ────────────────────────────────────────────────────────
+server.listen(PORT, () => {
   console.log(`Servidor rodando na porta ${PORT}`);
 });

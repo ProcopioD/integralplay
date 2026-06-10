@@ -1,106 +1,166 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IntegralPlay | Aluguel de Quadras</title>
-    <link rel="stylesheet" href="css/style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IntegralPlay | Aluguel de Quadras</title>
+  <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    
 
+<!-- HEADER -->
+<header class="header">
+  <div class="container">
+    <div class="logo">IntegralPlay</div>
+    <nav class="nav">
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="quadras.html">Quadras</a></li>
+        <li><a href="#contato">Contato</a></li>
+        <li id="nav-login-item"><a href="login.html" class="btn-login">Login</a></li>
+        <li id="nav-usuario-item" style="display:none;">
+          <span id="nav-usuario-nome" style="color:#fff; margin-right:10px;"></span>
+          <button id="btn-logout" class="btn-login">Sair</button>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</header>
 
-    <!-- HEADER -->
-    <header class="header">
-        <div class="container">
-            <div class="logo">IntegralPlay</div>
+<main>
 
-            <nav class="nav">
-                <ul>
-                    <li><a href="#">Home</a></li>
-                    <li><a href="quadras.html">Quadras</a></li>
-                    <li><a href="login.html" class="btn-login">Login</a></li>
-                    <li><a href="#contato">Contato</a></li>
-                </ul>
-            </nav>
-        </div>
-    </header>
-
-    <main>
-    <!-- HERO -->
-    <section class="hero">
-        <div class="container">
-            <h1>Facilitando o acesso ao esporte</h1>
-            <p>Reserve quadras de forma rápida e segura.</p>
-            <a href="quadras.html" class="btn-primary">Reservar Agora</a>
-        </div>
-    </section>
-
-    <section class="sports">
-        <div class="container">
-            <h2 class="sports-title">Hoje vamos de qual esporte?</h2>
-
-                <div class="sports-grid">
-                <div class="sport-card"><img src="assets/images/esportes/campo.jpg" alt="Futebol">
-                <span>Futebol</span> </div>
-                <div class="sport-card"><img src="assets/images/esportes/voleicard.jpg" alt="Volei">
-                <span>Volei</span></div>
-                 <div class="sport-card"><img src="assets/images/esportes/basquetebol.jpg" alt="Basquete">
-                <span>Basquete</span></div>
-                 <div class="sport-card"><img src="assets/images/esportes/teniscard.jpg" alt="Tennis">
-                <span>Tenis</span></div>
-                 <div class="sport-card"><img src="assets/images/esportes/beachtenis.jpg" alt="Beach Tennis">
-                <span>Beach Tennis</span></div>
-            </div>
-        </div>
-    </section>
-
-    </main>
-
-        <!-- CONTATO -->
-   <section class="contato-section">
-
-    <div class="contato-container">
-
-        <div class="contato-imagem">
-            <img class="imagemdohome"  src="assets/images/esportes/quadraesportivas.jpg" alt="Quadra">
-        </div>
-
-        <div class="contato-info" id="contato">
-
-            <p><strong>Tel.:</strong> (11) 91747-9706 - Informações gerais</p>
-            <p><strong>E-mail:</strong> atendimento@arenabirapuera.com.br</p>
-
-            <br>
-
-            <p><strong>Endereço:</strong></p>
-            <p>Av. Dr. Dante Pazzanese, 421</p>
-            <p>Ibirapuera, São Paulo - SP</p>
-
-            <br>
-
-            <p><strong>Funcionamento:</strong></p>
-            <p>Seg a Sex: 06:00 às 23:00</p>
-            <p>Sábado: 08:00 às 20:00</p>
-            <p>Domingo: 08:00 às 18:00</p>
-
-        </div>
-
+  <!-- HERO -->
+  <section class="hero">
+    <div class="container">
+      <h1>Facilitando o acesso ao esporte</h1>
+      <p>Reserve quadras de forma rápida e segura.</p>
+      <a href="quadras.html" class="btn-primary">Reservar Agora</a>
     </div>
+  </section>
 
+  <!-- ESPORTES -->
+  <section class="sports">
+    <div class="container">
+      <h2 class="sports-title">Hoje vamos de qual esporte?</h2>
+      <div class="sports-grid">
+        <a href="quadras.html?esporte=futebol_society" class="sport-card">
+          <img src="assets/images/esportes/campo.jpg" alt="Futebol Society">
+          <span>Futebol Society</span>
+        </a>
+        <a href="quadras.html?esporte=futebol_campo" class="sport-card">
+          <img src="assets/images/esportes/futebolsociety.jpg" alt="Futebol de Campo">
+          <span>Futebol de Campo</span>
+        </a>
+        <a href="quadras.html?esporte=volei" class="sport-card">
+          <img src="assets/images/esportes/voleicard.jpg" alt="Vôlei">
+          <span>Vôlei</span>
+        </a>
+        <a href="quadras.html?esporte=basquete" class="sport-card">
+          <img src="assets/images/esportes/basquetebol.jpg" alt="Basquete">
+          <span>Basquete</span>
+        </a>
+        <a href="quadras.html?esporte=beach_tennis" class="sport-card">
+          <img src="assets/images/esportes/beachtenis.jpg" alt="Beach Tennis">
+          <span>Beach Tennis</span>
+        </a>
+        <a href="quadras.html?esporte=tenis" class="sport-card">
+          <img src="assets/images/esportes/teniscard.jpg" alt="Tênis">
+          <span>Tênis</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ESPAÇOS EM DESTAQUE -->
+  <section class="espacos-section">
+    <div class="container">
+      <h2 class="sports-title">Espaços em destaque</h2>
+      <div id="espacos-grid" class="sports-grid">
+        <p id="loading-espacos">Carregando espaços...</p>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- CONTATO -->
+<section class="contato-section">
+  <div class="contato-container">
+    <div class="contato-imagem">
+      <img class="imagemdohome" src="assets/images/esportes/quadraesportivas.jpg" alt="Quadra">
+    </div>
+    <div class="contato-info" id="contato">
+      <p><strong>Tel.:</strong> (11) 91747-9706 - Informações gerais</p>
+      <p><strong>E-mail:</strong> contato@integralplay.com</p>
+      <br>
+      <p><strong>Plataforma IntegralPlay</strong></p>
+      <p>São Paulo - SP</p>
+      <br>
+      <p><strong>Atendimento:</strong></p>
+      <p>Seg a Sex: 08:00 às 22:00</p>
+      <p>Sábado: 08:00 às 20:00</p>
+      <p>Domingo: 08:00 às 18:00</p>
+    </div>
+  </div>
 </section>
 
-    <!-- FOOTER -->
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-info">
-                <p><strong>IntegralPlay</strong></p>
-                <p>Contato: contato@integralplay.com</p>
-                <p>Horário: 08h às 22h</p>
-            </div>
-        </div>
-    </footer>
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-info">
+      <p><strong>IntegralPlay</strong></p>
+      <p>Contato: contato@integralplay.com</p>
+      <p>Horário: 08h às 22h</p>
+    </div>
+  </div>
+</footer>
 
-<script src="js/script.js"></script>
+<script>
+  const API = 'http://localhost:3000';
+
+  // ─── HEADER DINÂMICO ───────────────────────────────────────────────────────
+  const token = localStorage.getItem('token');
+  const usuario = JSON.parse(localStorage.getItem('usuario') || 'null');
+
+  if (token && usuario) {
+    document.getElementById('nav-login-item').style.display = 'none';
+    document.getElementById('nav-usuario-item').style.display = 'inline-flex';
+    document.getElementById('nav-usuario-nome').textContent = `Olá, ${usuario.nome.split(' ')[0]}!`;
+  }
+
+  document.getElementById('btn-logout').addEventListener('click', () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('usuario');
+    window.location.href = 'index.html';
+  });
+
+  // ─── CARREGAR ESPAÇOS EM DESTAQUE ──────────────────────────────────────────
+  fetch(`${API}/espacos`)
+    .then(r => r.json())
+    .then(espacos => {
+      const grid = document.getElementById('espacos-grid');
+      grid.innerHTML = '';
+
+      // Mostra até 3 espaços em destaque
+      espacos.slice(0, 3).forEach(e => {
+        const card = document.createElement('a');
+        card.href = `quadra-detalhe.html?espaco_id=${e.id}`;
+        card.className = 'sport-card';
+        card.innerHTML = `
+          <div style="padding: 20px; text-align: center;">
+            <h3 style="color:#fff; margin-bottom:8px;">${e.nome}</h3>
+            <p style="color:#90CAF9; font-size:12px;">${e.cidade}</p>
+            ${e.media_avaliacao ? `<p style="color:#FACC15; font-size:12px;">⭐ ${e.media_avaliacao}</p>` : ''}
+            ${e.menor_preco ? `<p style="color:#22C55E; font-size:12px;">A partir de R$ ${parseFloat(e.menor_preco).toFixed(2)}/h</p>` : ''}
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+    })
+    .catch(() => {
+      document.getElementById('loading-espacos').textContent = 'Não foi possível carregar os espaços.';
+    });
+</script>
+
 </body>
 </html>

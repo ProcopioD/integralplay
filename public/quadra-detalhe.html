@@ -2,51 +2,59 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <title>Detalhes da Quadra</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalhes do Espaço | IntegralPlay</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
-   
 <header class="header">
-
-    
     <div class="container">
         <div class="logo">IntegralPlay</div>
         <nav class="nav">
             <ul>
                 <li><a href="index.html">Home</a></li>
                 <li><a href="quadras.html">Quadras</a></li>
-                <li><a href="#">Contato</a></li>
-                <li><a href="login.html" class="btn-login">Login</a></li>
-                <button id="btn-logout">Sair</button>
+                <li><a href="index.html#contato">Contato</a></li>
+                <li id="nav-login-item"><a href="login.html" class="btn-login">Login</a></li>
+                <li id="nav-usuario-item" style="display:none;">
+                    <span id="nav-usuario-nome" style="color:#fff; margin-right:10px;"></span>
+                    <button id="btn-logout" class="btn-login">Sair</button>
+                </li>
             </ul>
         </nav>
     </div>
 </header>
 
 <main class="detalhe-section">
-
     <div class="detalhe-container">
 
         <div class="detalhe-imagem">
-            <img id="imagem-principal" src="assets/images/esportes/futebolsociety.jpg" alt="Quadra de Futebol">
+            <img id="imagem-principal" src="assets/images/esportes/futebolsociety.jpg" alt="Quadra">
         </div>
 
         <div class="detalhe-info">
-            <h1>Quadra de Futebol Society</h1>
-            <br>
-            <p class="descricao">
-               A Arena IntegralPlay conta com um campo society oficial, que pode ser configurado de diferentes formas para atender a diversas necessidades. Ele pode ser utilizado como um campo completo ou dividido em três quadras de society 8x8, permitindo maior flexibilidade para treinos, jogos amistosos e competições. Além disso, há também uma quadra de society 7x7 e uma de 5x5, oferecendo opções variadas para diferentes tamanhos de equipes e estilos de jogo.</p> 
-               
-            <p class="descricao">
-            O gramado sintético de todas as quadras possui certificação FIFA, garantindo alta qualidade, aderência e amortecimento ideal para reduzir impactos nas articulações. Essa estrutura proporciona uma experiência de jogo profissional, seja para lazer ou competições mais intensas. Com manutenção constante e iluminação adequada, o espaço é ideal para quem busca um ambiente estruturado e confortável para a prática do futebol society.</p>
+            <h1 id="espaco-nome">Carregando...</h1>
+            <p id="espaco-cidade" style="color:#94A3B8; margin-bottom:8px;"></p>
+            <p class="descricao" id="espaco-descricao"></p>
+            <p id="espaco-preco" style="color:#22C55E; font-weight:bold; font-size:18px; margin:12px 0;"></p>
 
-            <button class="btn-reservar">Reservar agora</button>
+            <!-- REGRAS -->
+            <div id="regras-container" style="display:none; margin-bottom:16px;">
+                <h3 style="color:#1E88E5; margin-bottom:8px;">📋 Regras do espaço</h3>
+                <ul id="regras-lista" style="padding-left:20px; color:#64748B;"></ul>
+            </div>
+
+            <!-- AVALIAÇÕES -->
+            <div id="avaliacoes-container" style="display:none; margin-bottom:16px;">
+                <h3 style="color:#1E88E5; margin-bottom:8px;">⭐ Avaliações</h3>
+                <div id="avaliacoes-lista"></div>
+            </div>
+
+            <button class="btn-reservar btn-primary">Reservar agora</button>
         </div>
 
     </div>
-
 </main>
 
 <footer class="footer">
@@ -57,152 +65,291 @@
     </div>
 </footer>
 
+<!-- LIGHTBOX -->
 <div class="lightbox" id="lightbox">
     <span class="fechar" id="fechar">&times;</span>
     <img class="lightbox-img" id="lightbox-img">
 </div>
 
+<!-- MODAL DE AGENDAMENTO -->
+<div class="modal-agendamento" id="modal-agendamento">
+    <div class="modal-conteudo">
+
+        <span class="fechar-modal" id="fechar-modal">&times;</span>
+        <h2>Escolha um horário</h2>
+
+        <!-- SELEÇÃO DE QUADRA -->
+        <label for="select-quadra">Escolha a quadra:</label>
+        <select id="select-quadra" style="width:100%; padding:8px; margin-bottom:12px; border-radius:6px; border:1px solid #ccc;">
+            <option value="">Selecione uma quadra</option>
+        </select>
+
+        <label for="data-reserva">Escolha a data:</label>
+        <input type="date" id="data-reserva" style="width:100%; padding:8px; margin-bottom:8px; border-radius:6px; border:1px solid #ccc;">
+        <p id="data-selecionada"></p>
+
+        <div class="horarios" id="horarios-container">
+            <p id="msg-horarios">Selecione uma quadra e data para ver os horários.</p>
+        </div>
+
+        <p id="horario-selecionado"></p>
+
+        <label for="tipo-reserva">Tipo de reserva:</label>
+        <select id="tipo-reserva" style="width:100%; padding:8px; margin-bottom:8px; border-radius:6px; border:1px solid #ccc;">
+            <option value="pontual">Pontual (por hora)</option>
+            <option value="mensal">Mensal (~20% de desconto)</option>
+        </select>
+
+        <p id="valor-reserva" style="font-weight:bold; color:#22C55E; margin-bottom:12px;"></p>
+
+        <button class="btn-confirmar btn-primary" id="btn-confirmar" style="width:100%;">Confirmar Reserva</button>
+        <p id="msg-confirmacao" style="color:green; display:none; margin-top:8px;"></p>
+        <p id="msg-erro" style="color:red; display:none; margin-top:8px;"></p>
+
+    </div>
+</div>
+
 <script>
-const imagem = document.getElementById('imagem-principal')
-const lightbox = document.getElementById('lightbox');
-const lightboxImg = document.getElementById('lightbox-img');
-const fechar = document.getElementById('fechar');
+    const API = 'http://localhost:3000';
+
+    // ─── HEADER DINÂMICO ──────────────────────────────────────────────────────
+    const token = localStorage.getItem('token');
+    const usuario = JSON.parse(localStorage.getItem('usuario') || 'null');
+
+    if (token && usuario) {
+        document.getElementById('nav-login-item').style.display = 'none';
+        document.getElementById('nav-usuario-item').style.display = 'inline-flex';
+        document.getElementById('nav-usuario-nome').textContent = `Olá, ${usuario.nome.split(' ')[0]}!`;
+    }
+
+    document.getElementById('btn-logout').addEventListener('click', () => {
+        localStorage.removeItem('token');
+        localStorage.removeItem('usuario');
+        window.location.href = 'index.html';
+    });
+
+    // ─── LIGHTBOX ─────────────────────────────────────────────────────────────
+    const imagem = document.getElementById('imagem-principal');
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImg = document.getElementById('lightbox-img');
 
     imagem.addEventListener('click', () => {
         lightbox.style.display = 'flex';
         lightboxImg.src = imagem.src;
-});
+    });
+    document.getElementById('fechar').addEventListener('click', () => {
+        lightbox.style.display = 'none';
+    });
 
-        fechar.addEventListener('click', () => {
-            lightbox.style.display = 'none';
-});
+    // ─── CARREGAR DADOS DO ESPAÇO ─────────────────────────────────────────────
+    const params = new URLSearchParams(window.location.search);
+    const espacoId = params.get('espaco_id') || 1;
+    let quadraIdSelecionada = null;
+    let horaSelecionada = null;
+    let precoHora = 0;
+    let precoMensal = 0;
 
-       // fechar clicando fora
-        modal.addEventListener('click', (e) => {
-            if (e.target === modal) {
-                modal.style.display = 'none';
-    }
-});
-</script>
+    const imagens = {
+        futebol_society: 'assets/images/esportes/futebolsociety.jpg',
+        futebol_campo:   'assets/images/esportes/futebolsociety.jpg',
+        basquete:        'assets/images/esportes/quadradebasquete.jpg',
+        volei:           'assets/images/esportes/voleicard.jpg',
+        beach_tennis:    'assets/images/esportes/beachtenis.jpg',
+        tenis:           'assets/images/esportes/lonely-tennis-court.jpg',
+        padel:           'assets/images/esportes/quadraesportivas.jpg',
+    };
 
-<script>
-const inputData = document.getElementById('data-reserva');
-const dataTexto = document.getElementById('data-selecionada');
+    fetch(`${API}/espacos/${espacoId}`)
+        .then(r => r.json())
+        .then(espaco => {
+            document.getElementById('espaco-nome').textContent = espaco.nome;
+            document.getElementById('espaco-cidade').textContent = `📍 ${espaco.endereco}, ${espaco.cidade}`;
+            document.getElementById('espaco-descricao').textContent = espaco.descricao || '';
 
-// impedir datas passadas
-const hoje = new Date().toISOString().split('T')[0];
-inputData.setAttribute('min', hoje);
+            // Preço
+            if (espaco.quadras && espaco.quadras.length > 0) {
+                const menorPreco = Math.min(...espaco.quadras.map(q => parseFloat(q.preco_hora)));
+                document.getElementById('espaco-preco').textContent = `A partir de R$ ${menorPreco.toFixed(2)}/hora`;
 
-// mostrar data escolhida
-inputData.addEventListener('change', () => {
-    if (inputData.value) {
-        dataTexto.textContent = "Data selecionada: " + inputData.value.split('-').reverse().join('/');
-    }
-});
+                // Imagem baseada no primeiro esporte
+                const primeiroEsporte = espaco.quadras[0].esporte;
+                imagem.src = imagens[primeiroEsporte] || 'assets/images/esportes/quadraesportivas.jpg';
 
+                // Popula select de quadras
+                const select = document.getElementById('select-quadra');
+                espaco.quadras.forEach(q => {
+                    const opt = document.createElement('option');
+                    opt.value = q.id;
+                    opt.textContent = `${q.nome} — R$ ${parseFloat(q.preco_hora).toFixed(2)}/h`;
+                    opt.dataset.precoHora = q.preco_hora;
+                    opt.dataset.precoMensal = q.preco_mensal;
+                    select.appendChild(opt);
+                });
+            }
 
-</script>
+            // Regras
+            if (espaco.regras && espaco.regras.length > 0) {
+                const container = document.getElementById('regras-container');
+                const lista = document.getElementById('regras-lista');
+                container.style.display = 'block';
+                espaco.regras.forEach(r => {
+                    const li = document.createElement('li');
+                    li.textContent = r;
+                    lista.appendChild(li);
+                });
+            }
 
- <div class="modal-agendamento" id="modal-agendamento">
-    <div class="modal-conteudo">
+            // Avaliações
+            if (espaco.avaliacoes && espaco.avaliacoes.length > 0) {
+                const container = document.getElementById('avaliacoes-container');
+                const lista = document.getElementById('avaliacoes-lista');
+                container.style.display = 'block';
+                espaco.avaliacoes.forEach(a => {
+                    const div = document.createElement('div');
+                    div.style.cssText = 'border-bottom:1px solid #eee; padding:8px 0;';
+                    div.innerHTML = `
+                        <strong>${a.nome_usuario}</strong>
+                        <span style="color:#FACC15; margin-left:8px;">${'⭐'.repeat(a.nota)}</span>
+                        <p style="color:#64748B; font-size:13px;">${a.comentario || ''}</p>
+                    `;
+                    lista.appendChild(div);
+                });
+            }
+        })
+        .catch(() => {
+            document.getElementById('espaco-nome').textContent = 'Espaço não encontrado.';
+        });
 
-        <span class="fechar-modal" id="fechar-modal">&times;</span>
+    // ─── MODAL ────────────────────────────────────────────────────────────────
+    const modal = document.getElementById('modal-agendamento');
+    const fecharModal = document.getElementById('fechar-modal');
+    const btnReservar = document.querySelector('.btn-reservar');
+    const inputData = document.getElementById('data-reserva');
+    const selectQuadra = document.getElementById('select-quadra');
+    const tipoReserva = document.getElementById('tipo-reserva');
 
-        <h2>Escolha um horário</h2>
+    // Bloqueia datas passadas
+    const hoje = new Date().toISOString().split('T')[0];
+    inputData.setAttribute('min', hoje);
 
-        <label for="data-reserva">Escolha a data:</label>
-        <input type="date" id="data-reserva">
-
-        <p id="data-selecionada"></p>
-
-        
-
-        <div class="horarios">
-            <button class="slot">08:00</button>
-            <button class="slot">09:00</button>
-            <button class="slot ocupado">10:00</button>
-            <button class="slot">11:00</button>
-            <button class="slot">12:00</button>
-            <button class="slot">13:00</button>
-            <button class="slot">14:00</button>
-            <button class="slot">15:00</button>
-        </div>
-
-            <p id="horario-selecionado"></p>
-
-            <button class="btn-confirmar">Confirmar Reserva</button>
-
-    </div>
-
-
-    <script>
-
-</script>
-
-<script>
-        const botaoReservar = document.querySelector('.btn-reservar');
-        const modal = document.getElementById('modal-agendamento');
-        const fecharModal = document.getElementById('fechar-modal');
-        const slots = document.querySelectorAll('.slot');
-        const horarioTexto = document.getElementById('horario-selecionado');
-        const btnLogout = document.getElementById("btn-logout");
-
-         if (botaoReservar) {
-         botaoReservar.addEventListener('click', () => {
-            const usuarioLogado = localStorage.getItem("usuarioLogado");
-
-         if (usuarioLogado !== "true") {
-            alert("Você precisa estar logado para reservar.");
-            window.location.href = "login.html";
+    btnReservar.addEventListener('click', () => {
+        if (!token) {
+            alert('Você precisa estar logado para reservar.');
+            window.location.href = 'login.html';
             return;
         }
-
         modal.style.display = 'flex';
     });
-}
-       
-       
-        // abrir modal
-        botaoReservar.addEventListener('click', () => {
-            modal.style.display = 'flex';
+
+    fecharModal.addEventListener('click', () => { modal.style.display = 'none'; });
+    modal.addEventListener('click', (e) => { if (e.target === modal) modal.style.display = 'none'; });
+
+    // Atualiza preço ao trocar quadra
+    selectQuadra.addEventListener('change', () => {
+        const opt = selectQuadra.options[selectQuadra.selectedIndex];
+        precoHora   = parseFloat(opt.dataset.precoHora) || 0;
+        precoMensal = parseFloat(opt.dataset.precoMensal) || 0;
+        quadraIdSelecionada = selectQuadra.value;
+        atualizarValor();
+        if (inputData.value) carregarHorarios();
     });
 
-        // fechar modal
-        fecharModal.addEventListener('click', () => {
-            modal.style.display = 'none';
+    // Carrega horários ao trocar data
+    inputData.addEventListener('change', () => {
+        const data = inputData.value;
+        document.getElementById('data-selecionada').textContent = 'Data: ' + data.split('-').reverse().join('/');
+        horaSelecionada = null;
+        document.getElementById('horario-selecionado').textContent = '';
+        if (quadraIdSelecionada) carregarHorarios();
     });
 
-        // fechar clicando fora
-        modal.addEventListener('click', (e) => {
-            if (e.target === modal) {
-                modal.style.display = 'none';
+    tipoReserva.addEventListener('change', atualizarValor);
+
+    function atualizarValor() {
+        const valor = tipoReserva.value === 'mensal' ? precoMensal : precoHora;
+        if (valor > 0) {
+            document.getElementById('valor-reserva').textContent =
+                `💳 Valor: R$ ${valor.toFixed(2)}${tipoReserva.value === 'mensal' ? '/mês' : '/hora'}`;
         }
+    }
+
+    function carregarHorarios() {
+        const data = inputData.value;
+        const container = document.getElementById('horarios-container');
+        container.innerHTML = '<p>Carregando horários...</p>';
+        horaSelecionada = null;
+
+        fetch(`${API}/quadras/${quadraIdSelecionada}/disponibilidade?data=${data}`)
+            .then(r => r.json())
+            .then(dados => {
+                container.innerHTML = '';
+                dados.horarios.forEach(h => {
+                    const btn = document.createElement('button');
+                    btn.className = 'slot' + (h.disponivel ? '' : ' ocupado');
+                    btn.textContent = h.hora;
+                    if (h.disponivel) {
+                        btn.addEventListener('click', () => {
+                            document.querySelectorAll('.slot').forEach(s => s.classList.remove('selecionado'));
+                            btn.classList.add('selecionado');
+                            horaSelecionada = h.hora;
+                            document.getElementById('horario-selecionado').textContent = 'Horário: ' + h.hora;
+                        });
+                    }
+                    container.appendChild(btn);
+                });
+            })
+            .catch(() => {
+                container.innerHTML = '<p style="color:red">Erro ao carregar horários.</p>';
+            });
+    }
+
+    // ─── CONFIRMAR RESERVA ────────────────────────────────────────────────────
+    document.getElementById('btn-confirmar').addEventListener('click', () => {
+        const data = inputData.value;
+        const msgOk  = document.getElementById('msg-confirmacao');
+        const msgErr = document.getElementById('msg-erro');
+
+        msgOk.style.display = 'none';
+        msgErr.style.display = 'none';
+
+        if (!quadraIdSelecionada) { msgErr.textContent = 'Selecione uma quadra.'; msgErr.style.display = 'block'; return; }
+        if (!data)               { msgErr.textContent = 'Selecione uma data.';   msgErr.style.display = 'block'; return; }
+        if (!horaSelecionada)    { msgErr.textContent = 'Selecione um horário.'; msgErr.style.display = 'block'; return; }
+
+        const [h, m] = horaSelecionada.split(':').map(Number);
+        const horaFim = `${String(h + 1).padStart(2, '0')}:${String(m).padStart(2, '0')}`;
+
+        fetch(`${API}/reservas`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify({
+                quadra_id:   parseInt(quadraIdSelecionada),
+                data,
+                hora_inicio: horaSelecionada,
+                hora_fim:    horaFim,
+                tipo:        tipoReserva.value
+            })
+        })
+        .then(r => r.json())
+        .then(dados => {
+            if (dados.erro) {
+                msgErr.textContent = dados.erro;
+                msgErr.style.display = 'block';
+            } else {
+                msgOk.textContent = `✅ ${dados.mensagem} Valor: R$ ${dados.valor_total}`;
+                msgOk.style.display = 'block';
+                inputData.dispatchEvent(new Event('change'));
+            }
+        })
+        .catch(() => {
+            msgErr.textContent = 'Erro ao conectar com o servidor.';
+            msgErr.style.display = 'block';
+        });
     });
-
-        // LOGOUT
-      if (btnLogout) {
-            btnLogout.addEventListener("click", () => {
-                localStorage.removeItem("usuarioLogado");
-                localStorage.removeItem("usuarioEmail");
-                alert("Você saiu da conta.");
-                window.location.href = "index.html";
-     });
-}
-
-        // selecionar horário
-        slots.forEach(slot => {
-            slot.addEventListener('click', () => {
-                if (!slot.classList.contains('ocupado')) {
-                    slots.forEach(s => s.classList.remove('selecionado'));
-                    slots.classList.add('selecionado');
-                    horarioTexto.textContent = "Horário selecionado: " + slot.textContent;
-        }
-    });
-});
-
 </script>
-
- </div>
 
 </body>
 </html>

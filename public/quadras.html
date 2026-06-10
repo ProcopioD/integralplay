@@ -1,128 +1,173 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quadras | IntegralPlay</title>
-    <link rel="stylesheet" href="css/style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quadras | IntegralPlay</title>
+  <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
 <header class="header">
-    <div class="container">
-        <div class="logo">IntegralPlay</div>
-        <nav class="nav">
-            <ul>
-                <li><a href="index.html">Home</a></li>
-                <li><a href="quadras.html">Quadras</a></li>
-                <li><a href="login.html" class="btn-login">Login</a></li>
-
-            </ul>
-        </nav>
-    </div>
+  <div class="container">
+    <div class="logo">IntegralPlay</div>
+    <nav class="nav">
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="quadras.html">Quadras</a></li>
+        <li><a href="index.html#contato">Contato</a></li>
+        <li id="nav-login-item"><a href="login.html" class="btn-login">Login</a></li>
+        <li id="nav-usuario-item" style="display:none;">
+          <span id="nav-usuario-nome" style="color:#fff; margin-right:10px;"></span>
+          <button id="btn-logout" class="btn-login">Sair</button>
+        </li>
+      </ul>
+    </nav>
+  </div>
 </header>
 
 <main>
+  <section class="quadras-section">
+    <div class="container">
+      <h1 class="page-title">Espaços Esportivos</h1>
 
-<section class="quadras-section">
-<div class="container">
+      <!-- FILTROS -->
+      <div class="filtros" style="margin-bottom: 24px; display:flex; gap:12px; flex-wrap:wrap;">
+        <select id="filtro-esporte" style="padding:8px 16px; border-radius:6px; border:1px solid #ccc;">
+          <option value="">Todos os esportes</option>
+          <option value="futebol_society">Futebol Society</option>
+          <option value="futebol_campo">Futebol de Campo</option>
+          <option value="basquete">Basquete</option>
+          <option value="volei">Vôlei</option>
+          <option value="beach_tennis">Beach Tennis</option>
+          <option value="tenis">Tênis</option>
+          <option value="padel">Padel</option>
+        </select>
 
-<h1 class="page-title">Quadras Disponíveis</h1>
+        <select id="filtro-cidade" style="padding:8px 16px; border-radius:6px; border:1px solid #ccc;">
+          <option value="">Todas as cidades</option>
+          <option value="São Paulo">São Paulo</option>
+          <option value="Santo André">Santo André</option>
+          <option value="Guarulhos">Guarulhos</option>
+        </select>
 
-<div class="quadras-list">
+        <button id="btn-filtrar" class="btn-primary" style="padding:8px 20px;">Filtrar</button>
+        <button id="btn-limpar" class="btn-login" style="padding:8px 20px;">Limpar</button>
+      </div>
 
-    <div class="quadra-card">
-        <img src="assets/images/esportes/campo de futebol.jpg" alt="Quadra de Futebol">
+      <!-- LISTA DE ESPAÇOS -->
+      <div id="espacos-lista" class="quadras-list">
+        <p id="loading-msg">Carregando espaços...</p>
+      </div>
 
-        <div class="quadra-info">
-            <h3>Quadra de Futebol Society</h3>
-            <p>Ideal para jogos entre amigos ou campeonatos.</p>
-
-            <a href="quadra-detalhe.html" class="btn-primary">
-                Ver detalhes
-            </a>
-        </div>
     </div>
-
-    <div class="quadra-card">
-        <img src="assets/images/esportes/quadradebasquete.jpg" alt="Quadra de Basquete">
-
-        <div class="quadra-info">
-            <h3>Quadra de Basquete</h3>
-            <p>Quadra oficial com iluminação noturna.</p>
-
-            <a href="quadra-detalhe.html" class="btn-primary">
-                Ver detalhes
-            </a>
-        </div>
-    </div>
-    
-        <div class="quadra-card">
-        <img src="assets/images/esportes/lonely-tennis-court.jpg" alt="Quadra de Tenis">
-
-        <div class="quadra-info">
-            <h3>Quadra de Tenis</h3>
-            <p>Quadra oficial com iluminação noturna.</p>
-
-            <a href="quadra-detalhe.html" class="btn-primary">
-                Ver detalhes
-            </a>
-        </div>
-    </div>
-
-
-    <div class="quadra-card">
-        <img src="assets/images/esportes/quadra-areia.jpg" alt="Quadra de Areia">
-
-        <div class="quadra-info">
-            <h3>Quadra de Areia</h3>
-            <p>Quadra oficial com iluminação noturna.</p>
-
-            <a href="quadra-detalhe.html" class="btn-primary">
-                Ver detalhes
-            </a>
-        </div>
-    </div>
-
-        <div class="quadra-card">
-        <img src="assets/images/esportes/quadradecima.jpg" alt="Quadra de Areia">
-
-        <div class="quadra-info">
-            <h3>Quadra de Areia</h3>
-            <p>Quadra oficial com iluminação noturna.</p>
-
-            <a href="quadra-detalhe.html" class="btn-primary">
-                Ver detalhes
-            </a>
-        </div>
-    </div>
-
-            <div class="quadra-card">
-        <img src="assets/images/esportes/quadraesportivas.jpg" alt="Quadra de Areia">
-
-        <div class="quadra-info">
-            <h3>Quadra Poliesportiva</h3>
-            <p>Quadra oficial com iluminação noturna.</p>
-
-            <a href="quadra-detalhe.html" class="btn-primary">
-                Ver detalhes
-            </a>
-        </div>
-    </div>
-
-</div>
-</div>
-</section>
-
+  </section>
 </main>
 
 <footer class="footer">
-    <div class="container">
-        <p><strong>IntegralPlay</strong></p>
-        <p>Contato: contato@integralplay.com</p>
-        <p>Horário: 08h às 22h</p>
-    </div>
+  <div class="container">
+    <p><strong>IntegralPlay</strong></p>
+    <p>Contato: contato@integralplay.com</p>
+    <p>Horário: 08h às 22h</p>
+  </div>
 </footer>
+
+<script>
+  const API = 'http://localhost:3000';
+
+  // ─── HEADER DINÂMICO ───────────────────────────────────────────────────────
+  const token = localStorage.getItem('token');
+  const usuario = JSON.parse(localStorage.getItem('usuario') || 'null');
+
+  if (token && usuario) {
+    document.getElementById('nav-login-item').style.display = 'none';
+    document.getElementById('nav-usuario-item').style.display = 'inline-flex';
+    document.getElementById('nav-usuario-nome').textContent = `Olá, ${usuario.nome.split(' ')[0]}!`;
+  }
+
+  document.getElementById('btn-logout').addEventListener('click', () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('usuario');
+    window.location.href = 'index.html';
+  });
+
+  // ─── FILTRO VIA URL ────────────────────────────────────────────────────────
+  const params = new URLSearchParams(window.location.search);
+  const esporteUrl = params.get('esporte');
+  if (esporteUrl) {
+    document.getElementById('filtro-esporte').value = esporteUrl;
+  }
+
+  // ─── CARREGAR ESPAÇOS ──────────────────────────────────────────────────────
+  const imagens = {
+    futebol_society: 'assets/images/esportes/campo de futebol.jpg',
+    futebol_campo:   'assets/images/esportes/futebolsociety.jpg',
+    basquete:        'assets/images/esportes/quadradebasquete.jpg',
+    volei:           'assets/images/esportes/voleicard.jpg',
+    beach_tennis:    'assets/images/esportes/beachtenis.jpg',
+    tenis:           'assets/images/esportes/lonely-tennis-court.jpg',
+    padel:           'assets/images/esportes/quadraesportivas.jpg',
+  };
+
+  function carregarEspacos() {
+    const esporte = document.getElementById('filtro-esporte').value;
+    const cidade  = document.getElementById('filtro-cidade').value;
+
+    let url = `${API}/espacos?`;
+    if (esporte) url += `esporte=${esporte}&`;
+    if (cidade)  url += `cidade=${cidade}`;
+
+    const lista = document.getElementById('espacos-lista');
+    lista.innerHTML = '<p id="loading-msg">Carregando espaços...</p>';
+
+    fetch(url)
+      .then(r => r.json())
+      .then(espacos => {
+        lista.innerHTML = '';
+
+        if (espacos.length === 0) {
+          lista.innerHTML = '<p>Nenhum espaço encontrado para esse filtro.</p>';
+          return;
+        }
+
+        espacos.forEach(e => {
+          const imgSrc = esporte && imagens[esporte]
+            ? imagens[esporte]
+            : 'assets/images/esportes/quadraesportivas.jpg';
+
+          const card = document.createElement('div');
+          card.className = 'quadra-card';
+          card.innerHTML = `
+            <img src="${imgSrc}" alt="${e.nome}" onerror="this.src='assets/images/esportes/quadraesportivas.jpg'">
+            <div class="quadra-info">
+              <h3>${e.nome}</h3>
+              <p>${e.cidade}</p>
+              ${e.media_avaliacao ? `<p>⭐ ${e.media_avaliacao} (${e.total_avaliacoes} avaliações)</p>` : '<p>Sem avaliações ainda</p>'}
+              ${e.menor_preco ? `<p style="color:#22C55E; font-weight:bold;">A partir de R$ ${parseFloat(e.menor_preco).toFixed(2)}/h</p>` : ''}
+              <a href="quadra-detalhe.html?espaco_id=${e.id}" class="btn-primary">Ver detalhes</a>
+            </div>
+          `;
+          lista.appendChild(card);
+        });
+      })
+      .catch(() => {
+        lista.innerHTML = '<p>Erro ao carregar espaços. Verifique sua conexão.</p>';
+      });
+  }
+
+  // Botão filtrar
+  document.getElementById('btn-filtrar').addEventListener('click', carregarEspacos);
+
+  // Botão limpar
+  document.getElementById('btn-limpar').addEventListener('click', () => {
+    document.getElementById('filtro-esporte').value = '';
+    document.getElementById('filtro-cidade').value = '';
+    carregarEspacos();
+  });
+
+  // Carrega ao abrir a página
+  carregarEspacos();
+</script>
 
 </body>
 </html>

@@ -1,11 +1,12 @@
 const express = require('express');
 const router = express.Router();
-const userController = require('../controllers/userController');
+const { buscarPorId, atualizar } = require('../controllers/userController');
+const { autenticar } = require('../middleware/authMiddleware');
 
-// Rota para criar um novo usuário
-router.post('/cadastro', userController.cadastrarUsuario);
+// GET /usuarios/:id — busca dados do usuário
+router.get('/:id', autenticar, buscarPorId);
 
-// Rota para consultar um usuário pelo email
-router.get('/:email', userController.consultarUsuario);
+// PUT /usuarios/:id — atualiza dados do usuário
+router.put('/:id', autenticar, atualizar);
 
 module.exports = router;

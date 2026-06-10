@@ -1,6 +1,7 @@
 * {
     margin: 0;
     padding: 0;
+    border: 0;
     box-sizing: border-box;
 }
 
@@ -458,7 +459,7 @@ html, body {
 .login-left {
     flex: 1;
     background: url('../assets/images/esportes/futebolsociety.jpg') center/cover no-repeat;
-    position: relative;
+    position: relative;   
 }
 
 .login-left .overlay {

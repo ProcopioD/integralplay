@@ -1,0 +1,39 @@
+
+services:
+  quadras-db:
+    image: mysql:8.0
+    container_name: mysql-container
+    restart: always
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: aluguel_quadras
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+  quadras-api:
+    build: .
+    container_name: api-container
+    restart: always
+    ports:
+      - "3000:3000"
+    depends_on:
+      - quadras-db
+    environment:
+      - PORT=3000
+      - DB_HOST=mysql-container
+      - DB_USER=root
+      - DB_PASSWORD=root
+      - DB_NAME=aluguel_quadras
+      - JWT_SECRET=chave_secreta_do_grupo
+      - MONGODB_URI=mongodb+srv://dpsantos:dpsantos45@integralplay.mnqvqnl.mongodb.net/?appName=IntegralPlay
+    healthcheck:
+      test: ["CMD", "node", "-e", "require('http').get('http://localhost:3000/health', (r) => r.statusCode === 200 ? process.exit(0) : process.exit(1))"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+
+volumes:
+  mysql_data:

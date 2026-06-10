@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard | IntegralPlay</title>
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .dashboard-layout { display: flex; min-height: 100vh; }
+    .sidebar { width: 220px; background: #0A1F44; padding: 24px 0; flex-shrink: 0; }
+    .sidebar-logo { color: #fff; font-size: 20px; font-weight: bold; padding: 0 24px 24px; border-bottom: 1px solid #1E3A6E; }
+    .sidebar-menu { list-style: none; padding: 16px 0; margin: 0; }
+    .sidebar-menu li a { display: block; padding: 12px 24px; color: #90CAF9; text-decoration: none; font-size: 14px; }
+    .sidebar-menu li a:hover, .sidebar-menu li a.ativo { background: #1E3A6E; color: #fff; }
+    .sidebar-menu li a span { margin-right: 10px; }
+    .dashboard-content { flex: 1; background: #F4F6F9; padding: 32px; overflow-y: auto; }
+    .dashboard-header { margin-bottom: 28px; }
+    .dashboard-header h1 { color: #0A1F44; font-size: 24px; margin-bottom: 4px; }
+    .dashboard-header p { color: #94A3B8; font-size: 14px; }
+    .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 28px; }
+    .stat-card { background: #fff; border-radius: 12px; padding: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+    .stat-card .stat-icon { font-size: 28px; margin-bottom: 8px; }
+    .stat-card .stat-valor { font-size: 28px; font-weight: bold; color: #0A1F44; }
+    .stat-card .stat-label { font-size: 13px; color: #94A3B8; margin-top: 4px; }
+    .section-card { background: #fff; border-radius: 12px; padding: 24px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); margin-bottom: 24px; }
+    .section-card h2 { color: #0A1F44; font-size: 18px; margin-bottom: 16px; }
+    .reserva-row { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid #F1F5F9; flex-wrap: wrap; gap: 8px; }
+    .reserva-row:last-child { border-bottom: none; }
+    .badge { display: inline-block; padding: 3px 10px; border-radius: 12px; font-size: 11px; font-weight: bold; }
+    .badge-confirmada { background: #D1FAE5; color: #065F46; }
+    .badge-pendente   { background: #FEF3C7; color: #92400E; }
+    .badge-cancelada  { background: #FEE2E2; color: #991B1B; }
+    .quadra-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid #F1F5F9; }
+    .quadra-item:last-child { border-bottom: none; }
+    .avaliacao-item { padding: 12px 0; border-bottom: 1px solid #F1F5F9; }
+    .avaliacao-item:last-child { border-bottom: none; }
+    .empty { color: #94A3B8; font-size: 14px; text-align: center; padding: 20px; }
+    @media (max-width: 768px) { .dashboard-layout { flex-direction: column; } .sidebar { width: 100%; } }
+  </style>
+</head>
+<body>
+
+<div class="dashboard-layout">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-logo">IntegralPlay</div>
+    <ul class="sidebar-menu">
+      <li><a href="#" class="ativo" onclick="mostrarSecao('resumo')"><span>📊</span> Resumo</a></li>
+      <li><a href="#" onclick="mostrarSecao('reservas')"><span>📅</span> Reservas</a></li>
+      <li><a href="#" onclick="mostrarSecao('quadras')"><span>🏟️</span> Quadras</a></li>
+      <li><a href="#" onclick="mostrarSecao('avaliacoes')"><span>⭐</span> Avaliações</a></li>
+      <li><a href="index.html"><span>🏠</span> Ir ao site</a></li>
+      <li><a href="#" id="sidebar-logout"><span>🚪</span> Sair</a></li>
+    </ul>
+  </aside>
+
+  <!-- CONTEÚDO -->
+  <main class="dashboard-content">
+
+    <div class="dashboard-header">
+      <h1 id="dash-titulo">Resumo</h1>
+      <p id="dash-subtitulo">Visão geral do seu espaço esportivo</p>
+    </div>
+
+    <!-- RESUMO -->
+    <div id="secao-resumo">
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-icon">📅</div>
+          <div class="stat-valor" id="stat-reservas">0</div>
+          <div class="stat-label">Reservas este mês</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">💰</div>
+          <div class="stat-valor" id="stat-faturamento">R$ 0</div>
+          <div class="stat-label">Faturamento este mês</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">⭐</div>
+          <div class="stat-valor" id="stat-avaliacao">—</div>
+          <div class="stat-label">Média de avaliações</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">🏟️</div>
+          <div class="stat-valor" id="stat-quadras">0</div>
+          <div class="stat-label">Quadras ativas</div>
+        </div>
+      </div>
+
+      <!-- ÚLTIMAS RESERVAS -->
+      <div class="section-card">
+        <h2>📅 Últimas reservas</h2>
+        <div id="ultimas-reservas"><p class="empty">Carregando...</p></div>
+      </div>
+    </div>
+
+    <!-- RESERVAS -->
+    <div id="secao-reservas" style="display:none;">
+      <div class="section-card">
+        <h2>📅 Todas as Reservas</h2>
+        <div id="todas-reservas"><p class="empty">Carregando...</p></div>
+      </div>
+    </div>
+
+    <!-- QUADRAS -->
+    <div id="secao-quadras" style="display:none;">
+      <div class="section-card">
+        <h2>🏟️ Suas Quadras</h2>
+        <div id="lista-quadras"><p class="empty">Carregando...</p></div>
+      </div>
+    </div>
+
+    <!-- AVALIAÇÕES -->
+    <div id="secao-avaliacoes" style="display:none;">
+      <div class="section-card">
+        <h2>⭐ Avaliações Recebidas</h2>
+        <div id="lista-avaliacoes"><p class="empty">Carregando...</p></div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<script>
+  const API = 'http://localhost:3000';
+  const token = localStorage.getItem('token');
+  const usuario = JSON.parse(localStorage.getItem('usuario') || 'null');
+
+  if (!token || !usuario || usuario.perfil !== 'dono') {
+    window.location.href = 'login.html';
+  }
+
+  document.getElementById('sidebar-logout').addEventListener('click', () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('usuario');
+    window.location.href = 'index.html';
+  });
+
+  // ─── NAVEGAÇÃO ────────────────────────────────────────────────────────────
+  function mostrarSecao(secao) {
+    ['resumo', 'reservas', 'quadras', 'avaliacoes'].forEach(s => {
+      document.getElementById(`secao-${s}`).style.display = s === secao ? 'block' : 'none';
+    });
+
+    const titulos = {
+      resumo: ['Resumo', 'Visão geral do seu espaço esportivo'],
+      reservas: ['Reservas', 'Todas as reservas do seu espaço'],
+      quadras: ['Quadras', 'Gerencie suas quadras'],
+      avaliacoes: ['Avaliações', 'O que os clientes estão dizendo'],
+    };
+
+    document.getElementById('dash-titulo').textContent = titulos[secao][0];
+    document.getElementById('dash-subtitulo').textContent = titulos[secao][1];
+
+    document.querySelectorAll('.sidebar-menu a').forEach(a => a.classList.remove('ativo'));
+    event.target.classList.add('ativo');
+
+    if (secao === 'reservas') carregarTodasReservas();
+    if (secao === 'quadras') carregarQuadras();
+    if (secao === 'avaliacoes') carregarAvaliacoes();
+  }
+
+  // ─── BUSCA ESPAÇO DO DONO ─────────────────────────────────────────────────
+  let espacoId = null;
+
+  fetch(`${API}/espacos`, {
+    headers: { 'Authorization': `Bearer ${token}` }
+  })
+  .then(r => r.json())
+  .then(espacos => {
+    // Filtra o espaço do dono logado
+    const meuEspaco = espacos.find(e => true); // pega o primeiro por ora
+    if (meuEspaco) {
+      espacoId = meuEspaco.id;
+      carregarResumo();
+    }
+  });
+
+  // ─── RESUMO ───────────────────────────────────────────────────────────────
+  function carregarResumo() {
+    fetch(`${API}/espacos/${espacoId}`, {
+      headers: { 'Authorization': `Bearer ${token}` }
+    })
+    .then(r => r.json())
+    .then(espaco => {
+      // Quadras ativas
+      const ativas = espaco.quadras ? espaco.quadras.filter(q => q.status === 'ativa').length : 0;
+      document.getElementById('stat-quadras').textContent = ativas;
+
+      // Média avaliações
+      if (espaco.avaliacoes && espaco.avaliacoes.length > 0) {
+        const media = (espaco.avaliacoes.reduce((s, a) => s + a.nota, 0) / espaco.avaliacoes.length).toFixed(1);
+        document.getElementById('stat-avaliacao').textContent = `${media} ⭐`;
+      }
+    });
+
+    // Reservas do espaço
+    fetch(`${API}/reservas/espaco/${espacoId}`, {
+      headers: { 'Authorization': `Bearer ${token}` }
+    })
+    .then(r => r.json())
+    .then(reservas => {
+      if (reservas.erro) return;
+
+      // Stats
+      const confirmadas = reservas.filter(r => r.status === 'confirmada');
+      document.getElementById('stat-reservas').textContent = confirmadas.length;
+      const fat = confirmadas.reduce((s, r) => s + parseFloat(r.valor_total || 0), 0);
+      document.getElementById('stat-faturamento').textContent = `R$ ${fat.toFixed(2)}`;
+
+      // Últimas 5
+      const container = document.getElementById('ultimas-reservas');
+      container.innerHTML = '';
+      const ultimas = reservas.slice(0, 5);
+
+      if (!ultimas.length) {
+        container.innerHTML = '<p class="empty">Nenhuma reserva ainda.</p>';
+        return;
+      }
+
+      ultimas.forEach(r => {
+        const div = document.createElement('div');
+        div.className = 'reserva-row';
+        const badgeClass = { confirmada: 'badge-confirmada', pendente: 'badge-pendente', cancelada: 'badge-cancelada' }[r.status] || 'badge-pendente';
+        const data = r.data ? new Date(r.data).toLocaleDateString('pt-BR') : '';
+        div.innerHTML = `
+          <div>
+            <strong style="color:#0A1F44;">${r.cliente}</strong>
+            <p style="margin:2px 0; font-size:13px; color:#64748B;">${r.quadra} • ${data} • ${r.hora_inicio?.slice(0,5)}</p>
+          </div>
+          <div style="text-align:right;">
+            <span class="badge ${badgeClass}">${r.status}</span>
+            <p style="margin:4px 0 0; font-size:13px; color:#22C55E;">R$ ${parseFloat(r.valor_total).toFixed(2)}</p>
+          </div>
+        `;
+        container.appendChild(div);
+      });
+    });
+  }
+
+  // ─── TODAS AS RESERVAS ────────────────────────────────────────────────────
+  function carregarTodasReservas() {
+    fetch(`${API}/reservas/espaco/${espacoId}`, {
+      headers: { 'Authorization': `Bearer ${token}` }
+    })
+    .then(r => r.json())
+    .then(reservas => {
+      const container = document.getElementById('todas-reservas');
+      container.innerHTML = '';
+
+      if (!reservas.length || reservas.erro) {
+        container.innerHTML = '<p class="empty">Nenhuma reserva encontrada.</p>';
+        return;
+      }
+
+      reservas.forEach(r => {
+        const div = document.createElement('div');
+        div.className = 'reserva-row';
+        const badgeClass = { confirmada: 'badge-confirmada', pendente: 'badge-pendente', cancelada: 'badge-cancelada' }[r.status] || 'badge-pendente';
+        const data = r.data ? new Date(r.data).toLocaleDateString('pt-BR') : '';
+        div.innerHTML = `
+          <div>
+            <strong style="color:#0A1F44;">${r.cliente}</strong>
+            <p style="margin:2px 0; font-size:13px; color:#64748B;">${r.quadra} • ${data} • ${r.hora_inicio?.slice(0,5)} às ${r.hora_fim?.slice(0,5)}</p>
+            <p style="margin:2px 0; font-size:13px; color:#94A3B8;">📞 ${r.telefone_cliente || 'Não informado'}</p>
+          </div>
+          <div style="text-align:right;">
+            <span class="badge ${badgeClass}">${r.status}</span>
+            <p style="margin:4px 0 0; font-size:13px; color:#22C55E; font-weight:bold;">R$ ${parseFloat(r.valor_total).toFixed(2)}</p>
+          </div>
+        `;
+        container.appendChild(div);
+      });
+    });
+  }
+
+  // ─── QUADRAS ──────────────────────────────────────────────────────────────
+  function carregarQuadras() {
+    fetch(`${API}/quadras/espaco/${espacoId}`)
+    .then(r => r.json())
+    .then(quadras => {
+      const container = document.getElementById('lista-quadras');
+      container.innerHTML = '';
+
+      if (!quadras.length) {
+        container.innerHTML = '<p class="empty">Nenhuma quadra cadastrada.</p>';
+        return;
+      }
+
+      quadras.forEach(q => {
+        const div = document.createElement('div');
+        div.className = 'quadra-item';
+        div.innerHTML = `
+          <div>
+            <strong style="color:#0A1F44;">${q.nome}</strong>
+            <p style="margin:2px 0; font-size:13px; color:#64748B;">${q.esporte?.replace('_', ' ')} • ${q.status}</p>
+          </div>
+          <div style="text-align:right;">
+            <p style="color:#22C55E; font-weight:bold; font-size:14px;">R$ ${parseFloat(q.preco_hora).toFixed(2)}/h</p>
+            <p style="color:#94A3B8; font-size:12px;">R$ ${parseFloat(q.preco_mensal).toFixed(2)}/mês</p>
+          </div>
+        `;
+        container.appendChild(div);
+      });
+    });
+  }
+
+  // ─── AVALIAÇÕES ───────────────────────────────────────────────────────────
+  function carregarAvaliacoes() {
+    fetch(`${API}/avaliacoes/espaco/${espacoId}`)
+    .then(r => r.json())
+    .then(avaliacoes => {
+      const container = document.getElementById('lista-avaliacoes');
+      container.innerHTML = '';
+
+      if (!avaliacoes.length) {
+        container.innerHTML = '<p class="empty">Nenhuma avaliação ainda.</p>';
+        return;
+      }
+
+      avaliacoes.forEach(a => {
+        const div = document.createElement('div');
+        div.className = 'avaliacao-item';
+        div.innerHTML = `
+          <div style="display:flex; justify-content:space-between;">
+            <strong style="color:#0A1F44;">${a.nome_usuario}</strong>
+            <span style="color:#FACC15;">${'⭐'.repeat(a.nota)}</span>
+          </div>
+          <p style="margin:6px 0 0; font-size:13px; color:#64748B;">${a.comentario || 'Sem comentário.'}</p>
+          <p style="font-size:11px; color:#94A3B8; margin-top:4px;">${new Date(a.created_at).toLocaleDateString('pt-BR')}</p>
+        `;
+        container.appendChild(div);
+      });
+    });
+  }
+</script>
+
+</body>
+</html>

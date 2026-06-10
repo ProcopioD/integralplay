@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Meu Perfil | IntegralPlay</title>
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .perfil-section { padding: 40px 0; min-height: 60vh; }
+    .perfil-container { max-width: 600px; margin: 0 auto; }
+    .perfil-card { background: #fff; border-radius: 12px; padding: 32px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); margin-bottom: 24px; }
+    .perfil-avatar { width: 80px; height: 80px; border-radius: 50%; background: #1E88E5; display: flex; align-items: center; justify-content: center; font-size: 32px; color: #fff; margin: 0 auto 16px; }
+    .perfil-nome { text-align: center; font-size: 22px; font-weight: bold; color: #0A1F44; margin-bottom: 4px; }
+    .perfil-perfil { text-align: center; color: #94A3B8; font-size: 14px; margin-bottom: 24px; }
+    .form-group { margin-bottom: 16px; }
+    .form-group label { display: block; font-weight: bold; color: #0A1F44; margin-bottom: 6px; font-size: 14px; }
+    .form-group input { width: 100%; padding: 10px 14px; border-radius: 8px; border: 1px solid #CBD5E1; font-size: 14px; box-sizing: border-box; }
+    .form-group input:focus { outline: none; border-color: #1E88E5; }
+    .btn-salvar { width: 100%; padding: 12px; background: #1E88E5; color: #fff; border: none; border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer; }
+    .btn-salvar:hover { background: #1565C0; }
+    .notif-card { background: #fff; border-radius: 12px; padding: 24px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+    .notif-item { padding: 12px 0; border-bottom: 1px solid #F1F5F9; display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
+    .notif-item:last-child { border-bottom: none; }
+    .notif-nao-lida { font-weight: bold; }
+    .notif-data { font-size: 11px; color: #94A3B8; white-space: nowrap; }
+    .badge-perfil { display: inline-block; padding: 3px 10px; border-radius: 12px; font-size: 11px; font-weight: bold; background: #DBEAFE; color: #1D4ED8; }
+    .msg-sucesso { color: #22C55E; font-size: 14px; display: none; margin-top: 8px; text-align: center; }
+    .msg-erro-p { color: #EF4444; font-size: 14px; display: none; margin-top: 8px; text-align: center; }
+    .links-rapidos { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 24px; }
+    .link-rapido { flex: 1; min-width: 120px; background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 10px; padding: 16px; text-align: center; text-decoration: none; color: #0A1F44; }
+    .link-rapido:hover { background: #EFF6FF; border-color: #1E88E5; }
+    .link-rapido span { display: block; font-size: 24px; margin-bottom: 6px; }
+  </style>
+</head>
+<body>
+
+<header class="header">
+  <div class="container">
+    <div class="logo">IntegralPlay</div>
+    <nav class="nav">
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="quadras.html">Quadras</a></li>
+        <li><a href="historico.html">Minhas Reservas</a></li>
+        <li id="nav-usuario-item" style="display:none;">
+          <span id="nav-usuario-nome" style="color:#fff; margin-right:10px;"></span>
+          <button id="btn-logout" class="btn-login">Sair</button>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="perfil-section">
+    <div class="container">
+      <div class="perfil-container">
+
+        <!-- AVATAR E NOME -->
+        <div class="perfil-card">
+          <div class="perfil-avatar">👤</div>
+          <div class="perfil-nome" id="perfil-nome">Carregando...</div>
+          <div class="perfil-perfil"><span class="badge-perfil" id="perfil-badge">cliente</span></div>
+
+          <!-- LINKS RÁPIDOS -->
+          <div class="links-rapidos">
+            <a href="historico.html" class="link-rapido">
+              <span>🏟️</span>
+              Minhas Reservas
+            </a>
+            <a href="#notificacoes" class="link-rapido">
+              <span>🔔</span>
+              Notificações
+            </a>
+            <a href="quadras.html" class="link-rapido">
+              <span>🔍</span>
+              Buscar Quadras
+            </a>
+          </div>
+
+          <!-- FORMULÁRIO DE EDIÇÃO -->
+          <h3 style="color:#0A1F44; margin-bottom:16px;">Editar dados</h3>
+          <div class="form-group">
+            <label>Nome completo</label>
+            <input type="text" id="input-nome" placeholder="Seu nome">
+          </div>
+          <div class="form-group">
+            <label>Email</label>
+            <input type="email" id="input-email" placeholder="Seu email" disabled style="background:#F1F5F9;">
+          </div>
+          <div class="form-group">
+            <label>Telefone</label>
+            <input type="tel" id="input-telefone" placeholder="(11) 99999-9999">
+          </div>
+          <div class="form-group">
+            <label>Nova senha (deixe em branco para manter)</label>
+            <input type="password" id="input-senha" placeholder="Nova senha">
+          </div>
+          <button class="btn-salvar" id="btn-salvar">Salvar alterações</button>
+          <p class="msg-sucesso" id="msg-sucesso">✅ Dados atualizados com sucesso!</p>
+          <p class="msg-erro-p" id="msg-erro">Erro ao salvar dados.</p>
+        </div>
+
+        <!-- NOTIFICAÇÕES -->
+        <div class="notif-card" id="notificacoes">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+            <h3 style="color:#0A1F44; margin:0;">🔔 Notificações <span id="badge-nao-lidas" style="background:#EF4444; color:#fff; border-radius:50%; padding:2px 7px; font-size:12px; display:none;"></span></h3>
+            <button id="btn-todas-lidas" style="background:transparent; border:none; color:#1E88E5; cursor:pointer; font-size:13px;">Marcar todas como lidas</button>
+          </div>
+          <div id="notif-lista">
+            <p style="color:#94A3B8;">Carregando notificações...</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  <div class="container">
+    <p><strong>IntegralPlay</strong></p>
+    <p>Contato: contato@integralplay.com</p>
+    <p>Horário: 08h às 22h</p>
+  </div>
+</footer>
+
+<script>
+  const API = 'http://localhost:3000';
+  const token = localStorage.getItem('token');
+  const usuario = JSON.parse(localStorage.getItem('usuario') || 'null');
+
+  if (!token || !usuario) window.location.href = 'login.html';
+
+  // Header
+  document.getElementById('nav-usuario-item').style.display = 'inline-flex';
+  document.getElementById('nav-usuario-nome').textContent = `Olá, ${usuario.nome.split(' ')[0]}!`;
+
+  document.getElementById('btn-logout').addEventListener('click', () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('usuario');
+    window.location.href = 'index.html';
+  });
+
+  // ─── PREENCHE DADOS DO PERFIL ─────────────────────────────────────────────
+  document.getElementById('perfil-nome').textContent = usuario.nome;
+  document.getElementById('perfil-badge').textContent = usuario.perfil;
+  document.getElementById('input-nome').value = usuario.nome;
+  document.getElementById('input-email').value = usuario.email;
+
+  // ─── SALVAR ALTERAÇÕES ────────────────────────────────────────────────────
+  document.getElementById('btn-salvar').addEventListener('click', async () => {
+    const nome     = document.getElementById('input-nome').value;
+    const telefone = document.getElementById('input-telefone').value;
+    const senha    = document.getElementById('input-senha').value;
+    const msgOk  = document.getElementById('msg-sucesso');
+    const msgErr = document.getElementById('msg-erro');
+
+    msgOk.style.display = 'none';
+    msgErr.style.display = 'none';
+
+    const body = { nome, telefone };
+    if (senha) body.senha = senha;
+
+    try {
+      const res = await fetch(`${API}/usuarios/${usuario.id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify(body)
+      });
+
+      const dados = await res.json();
+
+      if (!res.ok) {
+        msgErr.textContent = dados.erro || 'Erro ao salvar.';
+        msgErr.style.display = 'block';
+      } else {
+        msgOk.style.display = 'block';
+        // Atualiza nome no localStorage
+        usuario.nome = nome;
+        localStorage.setItem('usuario', JSON.stringify(usuario));
+        document.getElementById('perfil-nome').textContent = nome;
+        document.getElementById('nav-usuario-nome').textContent = `Olá, ${nome.split(' ')[0]}!`;
+      }
+    } catch {
+      msgErr.textContent = 'Erro ao conectar com o servidor.';
+      msgErr.style.display = 'block';
+    }
+  });
+
+  // ─── NOTIFICAÇÕES ─────────────────────────────────────────────────────────
+  function carregarNotificacoes() {
+    fetch(`${API}/notificacoes`, {
+      headers: { 'Authorization': `Bearer ${token}` }
+    })
+    .then(r => r.json())
+    .then(notifs => {
+      const lista = document.getElementById('notif-lista');
+      lista.innerHTML = '';
+
+      const naoLidas = notifs.filter(n => !n.lida).length;
+      const badge = document.getElementById('badge-nao-lidas');
+      if (naoLidas > 0) {
+        badge.textContent = naoLidas;
+        badge.style.display = 'inline';
+      }
+
+      if (!notifs.length) {
+        lista.innerHTML = '<p style="color:#94A3B8;">Sem notificações.</p>';
+        return;
+      }
+
+      notifs.forEach(n => {
+        const div = document.createElement('div');
+        div.className = 'notif-item' + (n.lida ? '' : ' notif-nao-lida');
+        div.innerHTML = `
+          <div>
+            <p style="margin:0; font-size:14px; color:#0A1F44;">${n.titulo}</p>
+            <p style="margin:4px 0 0; font-size:13px; color:#64748B;">${n.mensagem}</p>
+          </div>
+          <span class="notif-data">${new Date(n.created_at).toLocaleDateString('pt-BR')}</span>
+        `;
+        if (!n.lida) {
+          div.style.cursor = 'pointer';
+          div.addEventListener('click', () => marcarLida(n._id, div));
+        }
+        lista.appendChild(div);
+      });
+    })
+    .catch(() => {
+      document.getElementById('notif-lista').innerHTML = '<p style="color:red;">Erro ao carregar notificações.</p>';
+    });
+  }
+
+  function marcarLida(id, div) {
+    fetch(`${API}/notificacoes/${id}/lida`, {
+      method: 'PATCH',
+      headers: { 'Authorization': `Bearer ${token}` }
+    }).then(() => {
+      div.classList.remove('notif-nao-lida');
+      div.style.cursor = 'default';
+    });
+  }
+
+  document.getElementById('btn-todas-lidas').addEventListener('click', () => {
+    fetch(`${API}/notificacoes/todas-lidas`, {
+      method: 'PATCH',
+      headers: { 'Authorization': `Bearer ${token}` }
+    }).then(() => carregarNotificacoes());
+  });
+
+  carregarNotificacoes();
+</script>
+
+</body>
+</html>

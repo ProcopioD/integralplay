@@ -1,20 +1,28 @@
 const db = require('./db');
 
-// Função para cadastrar um usuário
-exports.cadastrarUsuario = (nome, email, senha, telefone, nascimento, endereco, regiao, genero, noticias, callback) => {
-  const query = `INSERT INTO usuarios (nome, email, senha, telefone, nascimento, endereco, regiao, genero, noticias) 
-                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`;
-
-  db.query(query, [nome, email, senha, telefone, nascimento, endereco, regiao, genero, noticias], (err, result) => {
-    callback(err, result);
-  });
+// Busca usuário pelo email
+exports.buscarPorEmail = (email, callback) => {
+  db.query('SELECT * FROM usuarios WHERE email = ?', [email], callback);
 };
 
-// Função para consultar um usuário pelo email
-exports.consultarUsuarioPorEmail = (email, callback) => {
-  const query = 'SELECT * FROM usuarios WHERE email = ?';
+// Busca usuário pelo ID
+exports.buscarPorId = (id, callback) => {
+  db.query(
+    'SELECT id, nome, email, telefone, perfil, status, created_at FROM usuarios WHERE id = ?',
+    [id],
+    callback
+  );
+};
 
-  db.query(query, [email], (err, result) => {
-    callback(err, result);
-  });
+// Lista todos os usuários (uso do admin)
+exports.listarTodos = (callback) => {
+  db.query(
+    'SELECT id, nome, email, telefone, perfil, status, created_at FROM usuarios',
+    callback
+  );
+};
+
+// Atualiza status do usuário (ativo/suspenso)
+exports.atualizarStatus = (id, status, callback) => {
+  db.query('UPDATE usuarios SET status = ? WHERE id = ?', [status, id], callback);
 };
