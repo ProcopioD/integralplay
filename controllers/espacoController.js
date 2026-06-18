@@ -27,14 +27,21 @@ const listar = (req, res) => {
     params.push(esporte);
   }
 
-  query += ' GROUP BY e.id ORDER BY media_avaliacao DESC';
+query += ' GROUP BY e.id ORDER BY media_avaliacao DESC';
 
-  db.query(query, params, (err, results) => {
-    if (err) return res.status(500).json({ erro: 'Erro ao buscar espaços.' });
-    return res.status(200).json(results);
-  });
+db.query(query, params, (err, results) => {
+  if (err) {
+    console.error('ERRO SQL:', err);
+
+    return res.status(500).json({
+      erro: 'Erro ao buscar espaços.',
+      detalhes: err.message
+    });
+  }
+
+  return res.status(200).json(results);
+});
 };
-
 // ─── DETALHES DE UM ESPAÇO ────────────────────────────────────────────────────
 const detalhar = (req, res) => {
   const { id } = req.params;
