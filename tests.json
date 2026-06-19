@@ -10,7 +10,7 @@
         "method": "POST",
         "header": [{ "key": "Content-Type", "value": "application/json" }],
         "body": { "mode": "raw", "raw": "{\"email\": \"joao@email.com\", \"senha\": \"senha123\"}" },
-        "url": "http://localhost:3000/auth/login"
+        "url": "https://integralplay-production.up.railway.app/auth/login"
       },
       "event": [
         {
@@ -284,7 +284,7 @@
         "method": "POST",
         "header": [{ "key": "Content-Type", "value": "application/json" }],
         "body": { "mode": "raw", "raw": "{\"email\": \"hacker@teste.com\", \"senha\": \"senhaerrada\"}" },
-        "url": "http://localhost:3000/auth/login"
+        "url": "https://integralplay-production.up.railway.app/auth/login"
       },
       "event": [
         {

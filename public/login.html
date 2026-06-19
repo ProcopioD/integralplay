@@ -10,16 +10,9 @@
 
 <body class="login-body">
 
-    <header class="top-bar">
-
-    <a href="index.html" class="logo-login">
-        IntegralPlay
-    </a>
-
-    <a href="index.html" class="btn-home">
-        Início
-    </a>
-
+<header class="top-bar">
+    <a href="index.html" class="logo-login">IntegralPlay</a>
+    <a href="index.html" class="btn-home">Início</a>
 </header>
 
 <div class="login-container">
@@ -38,13 +31,14 @@
             <form id="form-login">
                 <input type="email" id="email" placeholder="Seu email" required>
                 <input type="password" id="senha" placeholder="Sua senha" required>
+                <p id="msg-erro" style="color: red; display:none;"></p>
                 <button type="submit">Entrar</button>
             </form>
 
-        <div class="login-extra">
-            <p>Não tem conta?</p>
-            <a href="cadastro.html" class="btn-cadastro">Cadastre-se</a>
-        </div>
+            <div class="login-extra">
+                <p>Não tem conta?</p>
+                <a href="cadastro.html" class="btn-cadastro">Cadastre-se</a>
+            </div>
 
         </div>
     </div>
@@ -52,30 +46,51 @@
 </div>
 
 <script>
-const formLogin = document.getElementById("form-login");
+    const API = 'https://integralplay-production.up.railway.app';
 
-if (formLogin) {
-    formLogin.addEventListener("submit", function(e) {
+    const formLogin = document.getElementById('form-login');
+    const msgErro   = document.getElementById('msg-erro');
+
+    formLogin.addEventListener('submit', async function(e) {
         e.preventDefault();
-        function goBack() {
-            window.history.back();
-         }
 
-        const email = document.getElementById("email").value;
-        const senha = document.getElementById("senha").value;
+        const email = document.getElementById('email').value;
+        const senha = document.getElementById('senha').value;
+        msgErro.style.display = 'none';
 
-        if (email && senha) {
-            localStorage.setItem("usuarioLogado", "true");
-            localStorage.setItem("usuarioEmail", email);
+        try {
+            const response = await fetch(`${API}/auth/login`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email, senha })
+            });
 
-            alert("Login realizado com sucesso!");
-            window.location.href = "index.html";
-        } else {
-            alert("Preencha todos os campos");
+            const dados = await response.json();
+
+            if (!response.ok) {
+                msgErro.textContent = dados.erro || 'Erro ao fazer login.';
+                msgErro.style.display = 'block';
+                return;
+            }
+
+            localStorage.setItem('token', dados.token);
+            localStorage.setItem('usuario', JSON.stringify(dados.usuario));
+
+            alert('Login realizado com sucesso!');
+
+            if (dados.usuario.perfil === 'admin') {
+                window.location.href = 'admin.html';
+            } else if (dados.usuario.perfil === 'dono') {
+                window.location.href = 'dashboard-dono.html';
+            } else {
+                window.location.href = 'index.html';
+            }
+
+        } catch (err) {
+            msgErro.textContent = 'Erro ao conectar com o servidor.';
+            msgErro.style.display = 'block';
         }
     });
-}
-   
 </script>
 
 </body>

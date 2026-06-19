@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,20 +8,12 @@
 </head>
 <body class="login-body">
 
-    <header class="top-bar">
-        <a href="index.html" class="logo-login">
-            IntegralPlay
-        </a>
+<header class="top-bar">
+    <a href="index.html" class="logo-login">IntegralPlay</a>
+    <a href="index.html" class="btn-home">Início</a>
+</header>
 
-        <a href="index.html" class="btn-home">
-            Início
-        </a>
-
-    </header>
-
-
-
-    <div class="login-container">
+<div class="login-container">
 
     <div class="login-left">
         <div class="overlay">
@@ -29,58 +21,93 @@
             <p>Play and reserve your moment</p>
         </div>
     </div>
-    
 
-<div class="login-right">
-    <div class="login-box">
-        <h2>Criar conta</h2>
+    <div class="login-right">
+        <div class="login-box">
+            <h2>Criar conta</h2>
 
-        <form id="form-cadastro">
+            <form id="form-cadastro">
+                <input type="text"     id="nome"      placeholder="Seu nome completo" required>
+                <input type="email"    id="email"     placeholder="Seu email"         required>
+                <input type="tel"      id="telefone"  placeholder="Seu telefone (opcional)">
+                <input type="password" id="senha"     placeholder="Crie uma senha"    required>
+                <input type="password" id="confirmar" placeholder="Confirme a senha"  required>
 
-            <input type="text" id="nome" placeholder="Seu nome" required>
+                <p id="msg-erro"    style="color: red;   display:none;"></p>
+                <p id="msg-sucesso" style="color: green; display:none;"></p>
 
-            <input type="email" id="email" placeholder="Seu email" required>
+                <button type="submit">Cadastrar</button>
+            </form>
 
-            <input type="password" id="senha" placeholder="Crie uma senha" required>
+            <div class="login-extra">
+                <p>Já tem conta?</p>
+                <a href="login.html" class="btn-cadastro">Efetuar login</a>
+            </div>
 
-            <button type="submit">Cadastrar</button>
-
-        </form>
-
-        <div class="login-extra">
-
-           <p> Já tem conta? </p>
-
-        <a href="login.html" class="btn-cadastro">Efetuar login</a>
-
-      </div>
-
+        </div>
     </div>
+
 </div>
 
 <script>
-const formCadastro = document.getElementById("form-cadastro");
+    const API = 'https://integralplay-production.up.railway.app';
 
-formCadastro.addEventListener("submit", function(e){
+    const formCadastro = document.getElementById('form-cadastro');
+    const msgErro      = document.getElementById('msg-erro');
+    const msgSucesso   = document.getElementById('msg-sucesso');
 
-    e.preventDefault();
+    formCadastro.addEventListener('submit', async function(e) {
+        e.preventDefault();
 
-    const nome = document.getElementById("nome").value;
-    const email = document.getElementById("email").value;
-    const senha = document.getElementById("senha").value;
-    
-    localStorage.setItem("usuarioNome", nome);
-    localStorage.setItem("usuarioEmail", email);
-    localStorage.setItem("usuarioSenha", senha);
+        const nome      = document.getElementById('nome').value;
+        const email     = document.getElementById('email').value;
+        const telefone  = document.getElementById('telefone').value;
+        const senha     = document.getElementById('senha').value;
+        const confirmar = document.getElementById('confirmar').value;
 
-    alert("Cadastro realizado com sucesso!");
+        msgErro.style.display    = 'none';
+        msgSucesso.style.display = 'none';
 
-    window.location.href = "login.html";
+        if (senha !== confirmar) {
+            msgErro.textContent = 'As senhas não coincidem.';
+            msgErro.style.display = 'block';
+            return;
+        }
 
-})
+        if (senha.length < 6) {
+            msgErro.textContent = 'A senha deve ter pelo menos 6 caracteres.';
+            msgErro.style.display = 'block';
+            return;
+        }
 
+        try {
+            const response = await fetch(`${API}/auth/cadastro`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ nome, email, senha, telefone, perfil: 'cliente' })
+            });
 
+            const dados = await response.json();
+
+            if (!response.ok) {
+                msgErro.textContent = dados.erro || 'Erro ao cadastrar.';
+                msgErro.style.display = 'block';
+                return;
+            }
+
+            msgSucesso.textContent = 'Cadastro realizado com sucesso! Redirecionando...';
+            msgSucesso.style.display = 'block';
+
+            setTimeout(() => {
+                window.location.href = 'login.html';
+            }, 1500);
+
+        } catch (err) {
+            msgErro.textContent = 'Erro ao conectar com o servidor.';
+            msgErro.style.display = 'block';
+        }
+    });
 </script>
-    
+
 </body>
 </html>
