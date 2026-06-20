@@ -3,21 +3,22 @@ const jwt = require('jsonwebtoken');
 // ─── VERIFICA SE O USUÁRIO ESTÁ AUTENTICADO ──────────────────────────────────
 const autenticar = (req, res, next) => {
   const authHeader = req.headers['authorization'];
+  let token = null;
 
-  if (!authHeader) {
-    return res.status(401).json({ erro: 'Token não fornecido.' });
+  if (authHeader) {
+    token = authHeader.split(' ')[1];
+  } else if (req.query.token) {
+    // Permite token via query string (necessário para downloads via <a>/window.open)
+    token = req.query.token;
   }
 
-  // O token vem no formato: "Bearer <token>"
-  const token = authHeader.split(' ')[1];
-
   if (!token) {
-    return res.status(401).json({ erro: 'Formato de token inválido.' });
+    return res.status(401).json({ erro: 'Token não fornecido.' });
   }
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    req.usuario = decoded; // disponibiliza os dados do usuário na requisição
+    req.usuario = decoded;
     next();
   } catch (err) {
     return res.status(401).json({ erro: 'Token inválido ou expirado.' });
@@ -25,7 +26,6 @@ const autenticar = (req, res, next) => {
 };
 
 // ─── VERIFICA SE O USUÁRIO TEM O PERFIL NECESSÁRIO ──────────────────────────
-// Uso: autorizar('admin') ou autorizar('dono', 'admin')
 const autorizar = (...perfisPermitidos) => {
   return (req, res, next) => {
     if (!req.usuario) {
