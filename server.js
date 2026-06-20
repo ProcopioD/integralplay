@@ -3,12 +3,22 @@ const conectarMongoDB = require('./models/mongodb');
 conectarMongoDB();
 
 const express = require('express');
+const cors = require('cors'); // ◄ CHAMANDO O CORS AQUI
 const http = require('http');
 const { Server } = require('socket.io');
 const bodyParser = require('body-parser');
 const db = require('./models/db');
 
 const app = express();
+
+// ─── CONFIGURAÇÃO DO CORS ─────────────────────────────────────────────────────
+// Isso permite que o frontend na Vercel envie requisições para cá sem ser bloqueado
+app.use(cors({
+  origin: '*', 
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
+
 const server = http.createServer(app);
 const io = new Server(server, {
   cors: { origin: '*' }
