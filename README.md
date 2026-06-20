@@ -53,7 +53,7 @@ DB_PASS=123456
 DB_NAME=aluguel_quadras
 JWT_SECRET=chave_secreta_do_grupo
 Execução da aplicação:
-Com tudo configurado, executamos a aplicação com o comando npm run dev. A aplicação iniciou corretamente na porta 3000, e ficou acessível em http://localhost:3000.
+Com tudo configurado, executamos a aplicação com o comando npm run dev. A aplicação iniciou corretamente na porta 3000, e ficou acessível em https://integralplay-production.up.railway.app
 
 Testes das rotas:
 Para testar a API desenvolvida, utilizamos o Insomnia, que nos permitiu simular requisições HTTP e validar o comportamento das rotas. Durante os testes, criamos usuários, fizemos login, reservas, pagamentos e também verificamos o retorno dos históricos de reserva e avaliações.

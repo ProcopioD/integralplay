@@ -41,7 +41,7 @@
         "method": "POST",
         "header": [{ "key": "Content-Type", "value": "application/json" }],
         "body": { "mode": "raw", "raw": "{\"email\": \"admin@integralplay.com\", \"senha\": \"senha123\"}" },
-        "url": "http://localhost:3000/auth/login"
+        "url": "https://integralplay-production.up.railway.app/auth/login"
       },
       "event": [
         {
@@ -69,7 +69,7 @@
       "name": "GET Espaços (público)",
       "request": {
         "method": "GET",
-        "url": "http://localhost:3000/espacos"
+        "url": "https://integralplay-production.up.railway.app/espacos"
       },
       "event": [
         {
@@ -98,7 +98,7 @@
       "name": "GET Quadras do Espaço 1",
       "request": {
         "method": "GET",
-        "url": "http://localhost:3000/quadras/espaco/1"
+        "url": "https://integralplay-production.up.railway.app/espaco/1"
       },
       "event": [
         {
@@ -130,7 +130,7 @@
           { "key": "Authorization", "value": "Bearer {{token_cliente}}" }
         ],
         "body": { "mode": "raw", "raw": "{\"quadra_id\": 1, \"data\": \"2026-12-20\", \"hora_inicio\": \"14:00\", \"hora_fim\": \"15:00\", \"tipo\": \"pontual\"}" },
-        "url": "http://localhost:3000/reservas"
+        "url": "https://integralplay-production.up.railway.app/reservas"
       },
       "event": [
         {
@@ -160,7 +160,7 @@
           { "key": "Authorization", "value": "Bearer {{token_cliente}}" }
         ],
         "body": { "mode": "raw", "raw": "{\"reserva_id\": {{reserva_id}}, \"metodo\": \"pix\"}" },
-        "url": "http://localhost:3000/pagamentos"
+        "url": "https://integralplay-production.up.railway.app/pagamentos"
       },
       "event": [
         {
@@ -185,7 +185,7 @@
       "request": {
         "method": "GET",
         "header": [{ "key": "Authorization", "value": "Bearer {{token_cliente}}" }],
-        "url": "http://localhost:3000/reservas/minhas"
+        "url": "https://integralplay-production.up.railway.app/reservas/minhas"
       },
       "event": [
         {
@@ -209,7 +209,7 @@
       "request": {
         "method": "GET",
         "header": [{ "key": "Authorization", "value": "Bearer {{token_cliente}}" }],
-        "url": "http://localhost:3000/notificacoes"
+        "url": "https://integralplay-production.up.railway.app/notificacoes"
       },
       "event": [
         {
@@ -233,7 +233,7 @@
       "request": {
         "method": "GET",
         "header": [{ "key": "Authorization", "value": "Bearer {{token_admin}}" }],
-        "url": "http://localhost:3000/admin/relatorio"
+        "url": "https://integralplay-production.up.railway.app/admin/relatorio"
       },
       "event": [
         {
@@ -259,7 +259,7 @@
       "request": {
         "method": "GET",
         "header": [{ "key": "Authorization", "value": "Bearer {{token_admin}}" }],
-        "url": "http://localhost:3000/logs"
+        "url": "https://integralplay-production.up.railway.app/logs"
       },
       "event": [
         {
@@ -307,7 +307,7 @@
       "name": "GET Rota Protegida sem Token (segurança)",
       "request": {
         "method": "GET",
-        "url": "http://localhost:3000/admin/relatorio"
+        "url": "https://integralplay-production.up.railway.app/admin/relatorio"
       },
       "event": [
         {
